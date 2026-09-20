@@ -258,7 +258,20 @@ header{padding:36px 0 8px;text-align:center}
 .info-box:hover{border-color:var(--red);transform:translateY(-4px);box-shadow:0 10px 30px -10px var(--red-glow)}
 .info-box::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--red);transform:scaleY(0);transform-origin:top;transition:transform .3s}
 .info-box:hover::before{transform:scaleY(1)}
-.info-box h3{font-family:'Archivo';font-weight:700;font-size:18px;color:var(--white);margin-bottom:14px;letter-spacing:-.01em;line-height:1.3;text-align:center}
+.info-box h3{
+  font-family:'Archivo';
+  font-weight:700;
+  font-size:18px;
+  color:var(--white);
+  margin-bottom:14px;
+  letter-spacing:-.01em;
+  line-height:1.3;
+  text-align:center;
+  min-height:46px; /* Menjamin tinggi judul tetap untuk 2 baris rapi */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
 .info-box p{font-size:13.5px;line-height:1.7;color:var(--gray);margin-bottom:10px;text-align:justify;text-align-last:center;hyphens:auto;-webkit-hyphens:auto;word-break:keep-all}
 
 /* MODAL */
@@ -679,7 +692,7 @@ header{padding:36px 0 8px;text-align:center}
       <i class="fas fa-arrow-left"></i> Kembali ke Beranda
     </button>
     <div class="info-header">
-      <h2>Artikel & <span>Panduan PDF</span></h2>
+      <h2><span>Artikel</span></h2>
       <p class="text-justify-center">Kumpulan artikel mendalam seputar kompresi PDF, aturan administrasi, algoritma, dan privasi data untuk membantu Anda mengelola dokumen digital dengan lebih baik.</p>
     </div>
     <div class="info-grid" id="articleContainer">
@@ -794,7 +807,7 @@ function openModal(index) {
     contentHtml += `<p>${p1} ${p2}</p>`;
   }
   
-  titleEl.textContent = (index+1) + ". " + title;
+  titleEl.textContent = title; // Hanya judul tanpa nomor
   contentEl.innerHTML = contentHtml;
   modal.classList.add('active');
   document.body.style.overflow = 'hidden';
@@ -862,7 +875,7 @@ function generateArticles() {
         const excerpt = fragments[i % fragments.length].split('. ').slice(0, 2).join('. ') + '.';
         
         html += `<article class="info-box" onclick="openModal(${i})" style="cursor:pointer">
-          <h3>${i+1}. ${title}</h3>
+          <h3>${title}</h3>
           <p class="excerpt" style="text-align:justify; text-align-last:center; color:var(--gray); font-size:13px; line-height:1.5;">${excerpt}</p>
           <span style="display:inline-flex; align-items:center; gap:6px; margin-top:14px; font-size:12px; font-weight:700; color:var(--red); text-transform:uppercase; letter-spacing:.05em;">Baca Selengkapnya <i class="fas fa-arrow-right"></i></span>
         </article>`;
