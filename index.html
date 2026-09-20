@@ -123,37 +123,11 @@ header{padding:36px 0 8px;text-align:center}
 .preset-chip:hover{border-color:var(--red);color:var(--red);background:rgba(230,57,70,.05)}
 .preset-chip strong{color:var(--white);font-weight:700;margin-right:4px}
 
-/* ABBREVIATIONS SECTION (5 KOLOM, 2 BARIS RAPI) */
 .abbrev-section{margin-top:12px}
-.abbrev-flex{
-  display:grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
-}
-.abbrev-item{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  padding:10px 4px;
-  background:var(--card-2);
-  border-radius:10px;
-  border:1px solid var(--border-2);
-  text-align:center;
-}
-.abbrev-item .abbr-short{
-  font-family:'Archivo';
-  font-weight:700;
-  color:var(--red);
-  font-size:14px;
-  margin-bottom:4px;
-}
-.abbrev-item .abbr-full{
-  font-size:10.5px;
-  color:var(--gray);
-  line-height:1.35;
-  display:block;
-}
+.abbrev-flex{display:grid;grid-template-columns: repeat(5, 1fr);gap: 8px;}
+.abbrev-item{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 4px;background:var(--card-2);border-radius:10px;border:1px solid var(--border-2);text-align:center}
+.abbrev-item .abbr-short{font-family:'Archivo';font-weight:700;color:var(--red);font-size:14px;margin-bottom:4px}
+.abbrev-item .abbr-full{font-size:10.5px;color:var(--gray);line-height:1.35;display:block}
 
 .custom-row{display:none;align-items:center;gap:10px;margin-top:12px;padding:14px;background:var(--card-2);border:1px solid var(--border-2);border-radius:11px;animation:slideIn .25s ease;justify-content:center}
 .custom-row.show{display:flex;flex-wrap:wrap}
@@ -246,7 +220,7 @@ header{padding:36px 0 8px;text-align:center}
 .guide-apply{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--white);background:var(--card-2);border:1px solid var(--border-2);padding:7px 12px;border-radius:7px;cursor:pointer;transition:all .15s}
 .guide-apply:hover{background:var(--red);border-color:var(--red);color:#fff}
 
-/* INFO PAGES (Fitur, Panduan, Kontak, Artikel) */
+/* INFO PAGES (Fitur, Panduan, Kontak, Artikel, Legal) */
 .info-wrap{max-width:1140px;margin:0 auto;padding:40px 20px}
 .info-header{text-align:center;margin-bottom:40px}
 .info-header h2{font-family:'Archivo';font-weight:800;font-size:32px;letter-spacing:-.02em;margin-bottom:8px}
@@ -258,21 +232,14 @@ header{padding:36px 0 8px;text-align:center}
 .info-box:hover{border-color:var(--red);transform:translateY(-4px);box-shadow:0 10px 30px -10px var(--red-glow)}
 .info-box::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--red);transform:scaleY(0);transform-origin:top;transition:transform .3s}
 .info-box:hover::before{transform:scaleY(1)}
-.info-box h3{
-  font-family:'Archivo';
-  font-weight:700;
-  font-size:18px;
-  color:var(--white);
-  margin-bottom:14px;
-  letter-spacing:-.01em;
-  line-height:1.3;
-  text-align:center;
-  min-height:46px; /* Menjamin tinggi judul tetap untuk 2 baris rapi */
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
+.info-box h3{font-family:'Archivo';font-weight:700;font-size:18px;color:var(--white);margin-bottom:14px;letter-spacing:-.01em;line-height:1.3;text-align:center;min-height:46px;display:flex;align-items:center;justify-content:center}
 .info-box p{font-size:13.5px;line-height:1.7;color:var(--gray);margin-bottom:10px;text-align:justify;text-align-last:center;hyphens:auto;-webkit-hyphens:auto;word-break:keep-all}
+
+.legal-box {max-width:800px;margin:0 auto;}
+.legal-box .info-box {padding: 40px;}
+.legal-box .info-box h3 {text-align:left;min-height:auto;font-size:16px;margin-top:24px;margin-bottom:10px;color:var(--red);justify-content:flex-start}
+.legal-box .info-box h3:first-child {margin-top:0}
+.legal-box .info-box p {text-align:justify;text-align-last:left;font-size:14px;line-height:1.7}
 
 /* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px;animation:fadeIn .3s ease}
@@ -309,7 +276,7 @@ header{padding:36px 0 8px;text-align:center}
 .footer-bottom p{font-size:13px;color:var(--gray-dim)}
 .footer-bottom p span{color:var(--white);font-weight:600}
 .footer-bottom .fb-links{display:flex;gap:16px}
-.footer-bottom .fb-links a{font-size:13px;color:var(--gray-dim);text-decoration:none;transition:color .15s}
+.footer-bottom .fb-links a{font-size:13px;color:var(--gray-dim);text-decoration:none;transition:color .15s;cursor:pointer}
 .footer-bottom .fb-links a:hover{color:var(--red)}
 
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -342,22 +309,12 @@ header{padding:36px 0 8px;text-align:center}
   .info-grid{grid-template-columns:1fr}
   .modal-box{padding:20px}
   .modal-title{font-size:18px;padding:0 20px}
-  
-  /* Rapi 5 kolom di HP dengan font lebih kecil */
-  .abbrev-flex{
-    grid-template-columns: repeat(5, 1fr);
-    gap: 4px;
-  }
-  .abbrev-item{
-    padding:8px 2px;
-  }
-  .abbrev-item .abbr-short{
-    font-size:11px;
-  }
-  .abbrev-item .abbr-full{
-    font-size:8.5px;
-    line-height:1.2;
-  }
+  .legal-box .info-box {padding: 25px;}
+  .legal-box .info-box p {text-align-last:center;}
+  .abbrev-flex{grid-template-columns: repeat(5, 1fr);gap: 4px;}
+  .abbrev-item{padding:8px 2px;}
+  .abbrev-item .abbr-short{font-size:11px;}
+  .abbrev-item .abbr-full{font-size:8.5px;line-height:1.2;}
 }
 .hidden{display:none !important}
 </style>
@@ -462,7 +419,6 @@ header{padding:36px 0 8px;text-align:center}
           <button type="button" class="preset-chip" data-target="2000000" data-label="2MB"><strong>LPDP</strong>2 MB</button>
         </div>
 
-        <!-- PENJELASAN SINGKATAN LANGSUNG DI BAWAH PRESET (5 KOLOM, 2 BARIS RAPI) -->
         <div class="abbrev-section">
           <div class="abbrev-flex">
             <div class="abbrev-item">
@@ -730,6 +686,84 @@ header{padding:36px 0 8px;text-align:center}
   </div>
 </div>
 
+<!-- HALAMAN KEBIJAKAN PRIVASI -->
+<div class="page-view" id="page-kebijakan">
+  <div class="info-wrap">
+    <button class="back-btn" onclick="showPage('page-home')"><i class="fas fa-arrow-left"></i> Kembali ke Beranda</button>
+    <div class="info-header">
+      <h2><span>Kebijakan Privasi</span></h2>
+      <p class="text-justify-center">Karya Abadi PDF sangat menghormati privasi pengguna. Berikut adalah rincian bagaimana data dan file Anda dikelola saat menggunakan layanan kompresi PDF kami.</p>
+    </div>
+    <div class="legal-box">
+      <article class="info-box">
+        <h3>1. Pemrosesan Data Secara Lokal (Client-Side)</h3>
+        <p>Karya Abadi PDF berkomitmen penuh untuk melindungi privasi Anda. Semua file PDF yang Anda unggah ke situs ini diproses sepenuhnya secara lokal di dalam browser Anda (client-side). Tidak ada satu pun file PDF, metadata dokumen, atau data pribadi yang dikirimkan ke server eksternal atau disimpan di database kami. Arsitektur lokal ini menjamin bahwa dokumen administrasi sensitif Anda tidak akan pernah meninggalkan perangkat Anda, memberikan keamanan data hingga 100%.</p>
+        
+        <h3>2. Penggunaan Local Storage</h3>
+        <p>Satunya data yang disimpan di perangkat Anda adalah preferensi tema tampilan (mode gelap atau mode terang) menggunakan fitur local storage browser. Data ini bersifat teknis dan tidak mengandung informasi pribadi yang dapat mengidentifikasi Anda. Anda dapat menghapus data ini kapan saja melalui pengaturan browser Anda tanpa memengaruhi fungsi kompresi PDF.</p>
+        
+        <h3>3. Tidak Ada Pelacakan (No Tracking)</h3>
+        <p>Kami tidak menggunakan cookie pelacak pihak ketiga untuk memantau aktivitas Anda di laman ini. Kami tidak mengumpulkan alamat IP, riwayat kunjungan, atau informasi demografis apa pun. Karya Abadi PDF dirancang sebagai alat kerja yang bersih, bebas iklan pengganggu, dan fokus pada privasi pengguna.</p>
+        
+        <h3>4. Keamanan Dokumen</h3>
+        <p>Karena seluruh proses kompresi menggunakan algoritma binary search berjalan di memori browser (RAM) dan langsung diunduh sebagai file hasil akhir, risiko kebocoran data dari serangan man-in-the-middle dapat dihindari. Begitu Anda menutup tab browser atau mematikan perangkat, seluruh jejak file PDF yang diproses akan hilang secara permanen.</p>
+      </article>
+    </div>
+  </div>
+</div>
+
+<!-- HALAMAN SYARAT & KETENTUAN -->
+<div class="page-view" id="page-syarat">
+  <div class="info-wrap">
+    <button class="back-btn" onclick="showPage('page-home')"><i class="fas fa-arrow-left"></i> Kembali ke Beranda</button>
+    <div class="info-header">
+      <h2><span>Syarat & Ketentuan</span></h2>
+      <p class="text-justify-center">Dengan mengakses dan menggunakan Karya Abadi PDF, Anda menyetujui syarat dan ketentuan layanan berikut ini. Mohon dibaca dengan saksama.</p>
+    </div>
+    <div class="legal-box">
+      <article class="info-box">
+        <h3>1. Sifat Layanan</h3>
+        <p>Layanan kompresi PDF ini disediakan secara gratis untuk membantu masyarakat Indonesia dalam mengelola ukuran dokumen administrasi. Alat ini dirancang untuk keperluan pribadi maupun profesional tanpa memerlukan registrasi akun atau pembayaran langganan. Kami berhak mengubah atau menghentikan layanan sewaktu-waktu tanpa pemberitahuan terlebih dahulu.</p>
+        
+        <h3>2. Batasan Teknis Kompresi</h3>
+        <p>Algoritma kompresi menggunakan pendekatan iteratif binary search untuk mencapai target ukuran yang diinginkan. Namun, kami tidak menjamin bahwa target ukuran dapat selalu tercapai 100% secara matematis. Keterbatasan struktur file PDF asli, resolusi gambar, dan keterbatasan teknis browser dapat memengaruhi hasil akhir. Pengguna bertanggung jawab penuh atas keterbacaan dan validitas dokumen hasil kompresi.</p>
+        
+        <h3>3. Tanggung Jawab Pengguna</h3>
+        <p>Pengguna bertanggung jawab memastikan bahwa dokumen yang dikompres menggunakan tool ini tidak melanggar hukum, hak cipta, atau privasi pihak lain. Penggunaan layanan ini untuk tujuan ilegal, penipuan, atau manipulasi dokumen administrasi negara dilarang keras. Kami tidak bertanggung jawab atas konsekuensi hukum yang timbul akibat penyalahgunaan alat ini.</p>
+        
+        <h3>4. Perubahan Syarat</h3>
+        <p>Tim Karya Abadi PDF berhak memperbarui atau mengubah syarat dan ketentuan ini di masa mendatang untuk menyesuaikan dengan perkembangan teknologi atau regulasi yang berlaku. Pengguna disarankan untuk meninjau halaman ini secara berkala. Penggunaan berkelanjutan setelah perubahan dipublikasikan dianggap sebagai persetujuan terhadap syarat yang baru.</p>
+      </article>
+    </div>
+  </div>
+</div>
+
+<!-- HALAMAN DISCLAIMER -->
+<div class="page-view" id="page-disclaimer">
+  <div class="info-wrap">
+    <button class="back-btn" onclick="showPage('page-home')"><i class="fas fa-arrow-left"></i> Kembali ke Beranda</button>
+    <div class="info-header">
+      <h2><span>Disclaimer</span></h2>
+      <p class="text-justify-center">Peringatan dan penafian resmi terkait penggunaan Karya Abadi PDF serta batasan tanggung jawab kami terhadap dokumen hasil kompresi.</p>
+    </div>
+    <div class="legal-box">
+      <article class="info-box">
+        <h3>1. Tidak Ada Afiliasi Resmi</h3>
+        <p>Karya Abadi PDF adalah alat independen yang dikembangkan untuk memudahkan masyarakat dalam mengelola ukuran file PDF. Nama-nama instansi seperti CPNS, BUMN, BKN, PPDB, LPSE, dan LPDP yang disebutkan dalam antarmuka web hanyalah referensi batasan ukuran umum yang diterapkan oleh sistem tersebut. Kami tidak memiliki afiliasi resmi, kemitraan, atau hubungan kerja sama dengan instansi pemerintah mana pun.</p>
+        
+        <h3>2. Verifikasi Mandiri</h3>
+        <p>Batasan ukuran file PDF pada sistem administrasi pemerintah dapat berubah sewaktu-waktu. Oleh karena itu, pengguna diharapkan selalu memverifikasi ulang batasan ukuran file yang berlaku pada portal resmi masing-masing instansi sebelum melakukan unggah dokumen. Kami tidak bertanggung jawab atas penolakan dokumen oleh sistem pihak ketiga jika terdapat perubahan kebijakan teknis di luar kendali web tool ini.</p>
+        
+        <h3>3. Integritas Dokumen</h3>
+        <p>Meskipun algoritma kompresi kami dirancang untuk mempertahankan struktur dan keterbacaan teks pada file PDF, proses kompresi gambar (terutama pada dokumen hasil scan dengan DPI tinggi) dapat menyebabkan penurunan kualitas visual. Pengguna bertanggung jawab untuk memeriksa kembali kelayakan dokumen hasil kompresi sebelum diserahkan untuk keperluan administrasi resmi.</p>
+        
+        <h3>4. Batasan Tanggung Jawab</h3>
+        <p>Web tool ini disediakan "apa adanya" (as is) tanpa jaminan apa pun. Kami tidak bertanggung jawab atas kerusakan perangkat, kehilangan data, atau kerugian materi maupun immateri yang mungkin timbul akibat penggunaan atau ketidakmampuan menggunakan layanan kompresi PDF ini. Seluruh risiko penggunaan alat ini sepenuhnya ditanggung oleh pengguna.</p>
+      </article>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL POPUP ARTIKEL -->
 <div class="modal-overlay" id="articleModal" onclick="closeModal(event)">
   <div class="modal-box" onclick="event.stopPropagation()">
@@ -759,9 +793,9 @@ header{padding:36px 0 8px;text-align:center}
       <div class="footer-col">
         <h4>Legal</h4>
         <ul>
-          <li><a href="#"><i class="fas fa-chevron-right"></i>Kebijakan Privasi</a></li>
-          <li><a href="#"><i class="fas fa-chevron-right"></i>Syarat dan Ketentuan</a></li>
-          <li><a href="#"><i class="fas fa-chevron-right"></i>Disclaimer</a></li>
+          <li><a href="javascript:void(0)" onclick="showPage('page-kebijakan')"><i class="fas fa-chevron-right"></i>Kebijakan Privasi</a></li>
+          <li><a href="javascript:void(0)" onclick="showPage('page-syarat')"><i class="fas fa-chevron-right"></i>Syarat dan Ketentuan</a></li>
+          <li><a href="javascript:void(0)" onclick="showPage('page-disclaimer')"><i class="fas fa-chevron-right"></i>Disclaimer</a></li>
         </ul>
       </div>
       
@@ -775,9 +809,9 @@ header{padding:36px 0 8px;text-align:center}
     <div class="footer-bottom">
       <p>© 2026 <span>Karya Abadi PDF</span>. All Rights Reserved.</p>
       <div class="fb-links">
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
-        <a href="#">Cookies</a>
+        <a href="javascript:void(0)" onclick="showPage('page-kebijakan')">Privacy</a>
+        <a href="javascript:void(0)" onclick="showPage('page-syarat')">Terms</a>
+        <a href="javascript:void(0)" onclick="showPage('page-disclaimer')">Cookies</a>
       </div>
     </div>
   </div>
