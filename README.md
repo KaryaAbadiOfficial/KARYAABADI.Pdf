@@ -1,0 +1,2 @@
+# KARYAABADI.Pdf
+Kompres PDF
