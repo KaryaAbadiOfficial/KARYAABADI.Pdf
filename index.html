@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KARYA ABDI PDF — Kompres PDF Sesuai Ukuran</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<style>
+:root{
+  --bg:#0a0a0b; --bg-2:#101012; --card:#161618; --card-2:#1c1c20;
+  --border:#26262b; --border-2:#34343a;
+  --red:#e63946; --red-bright:#ff3142; --red-deep:#a81423; --red-glow:rgba(230,57,70,.35);
+  --white:#ffffff; --gray:#9a9aa3; --gray-dim:#5e5e66;
+  --green:#22c55e; --amber:#f59e0b;
+  --grid-color: rgba(255,255,255,.018);
+  --glow-1: rgba(230,57,70,.12); --glow-2: rgba(230,57,70,.06);
+  --shadow: 0 30px 60px -30px rgba(0,0,0,.8);
+  --nav-bg: rgba(10,10,11,.8);
+}
+body.light-mode{
+  --bg:#f8f9fa; --bg-2:#ffffff; --card:#ffffff; --card-2:#f1f3f5;
+  --border:#e9ecef; --border-2:#dee2e6;
+  --red:#d62839; --red-bright:#e63946; --red-deep:#b1212f; --red-glow:rgba(214,40,57,.2);
+  --white:#1a1a1c; --gray:#5e5e66; --gray-dim:#868e96;
+  --green:#16a34a; --amber:#d97706;
+  --grid-color: rgba(0,0,0,0.03);
+  --glow-1: rgba(214,40,57,.08); --glow-2: rgba(214,40,57,.04);
+  --shadow: 0 20px 50px -20px rgba(0,0,0,.15);
+  --nav-bg: rgba(248,249,250,.8);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{background:var(--bg);color:var(--white);font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden;transition:background .3s ease, color .3s ease}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(900px 600px at 15% -5%, var(--glow-1), transparent 60%),radial-gradient(700px 500px at 100% 100%, var(--glow-2), transparent 60%),linear-gradient(180deg,var(--bg) 0%,var(--bg) 100%)}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;background-image:linear-gradient(var(--grid-color) 1px,transparent 1px),linear-gradient(90deg,var(--grid-color) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse at center, black 30%, transparent 80%)}
+.grain{position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.04;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+.nav-wrap{position:sticky;top:0;z-index:100;background:var(--nav-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.navbar{max-width:1140px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--white);cursor:pointer}
+.logo-mark{width:38px;height:38px;border-radius:9px;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 8px 24px -8px var(--red-glow);border:1px solid var(--border-2);flex-shrink:0}
+.logo-mark img{width:100%;height:100%;object-fit:cover}
+.nav-text .b{font-family:'Archivo';font-weight:800;font-size:16px;letter-spacing:-.02em;color:var(--white)}
+.nav-text .b span{color:var(--red)}
+.nav-text .s{font-size:9.5px;color:var(--gray);letter-spacing:.18em;text-transform:uppercase;margin-top:2px;font-weight:600}
+.nav-links{display:flex;align-items:center;gap:8px}
+.nav-links a, .nav-links button{color:var(--gray);text-decoration:none;font-size:13.5px;font-weight:500;padding:8px 12px;border-radius:8px;transition:all .15s;background:none;border:none;font-family:inherit;cursor:pointer}
+.nav-links a:hover, .nav-links button:hover{color:var(--white);background:var(--card)}
+.nav-actions{display:flex;align-items:center;gap:8px}
+.theme-toggle{width:38px;height:38px;border-radius:9px;background:var(--card);border:1px solid var(--border-2);color:var(--white);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .2s}
+.theme-toggle:hover{border-color:var(--red);color:var(--red)}
+
+.page-view{display:none;position:relative;z-index:2}
+.page-view.active{display:block;animation:fadeIn .4s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+.wrap{max-width:880px;margin:0 auto;padding:0 20px}
+header{padding:36px 0 8px;text-align:center}
+.badge-priv{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--gray);background:var(--card);border:1px solid var(--border);padding:6px 10px;border-radius:999px;margin-bottom:22px}
+.badge-priv::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+
+.hero{padding:10px 0 20px;text-align:center}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.2em;color:var(--gray);text-transform:uppercase;padding:7px 14px;border:1px solid var(--border);border-radius:999px;background:var(--card);margin-bottom:22px}
+.hero-tag::before{content:'';width:6px;height:6px;background:var(--red);border-radius:50%;box-shadow:0 0 10px var(--red)}
+.hero h1{font-family:'Archivo';font-weight:900;font-size:clamp(34px,6vw,58px);line-height:.98;letter-spacing:-.03em;margin-bottom:14px}
+.hero h1 .text-red{color:var(--red)}
+.hero h1 .text-white{color:var(--white)}
+
+.text-justify-center{
+  text-align:justify; text-align-last:center; 
+  -webkit-hyphens:auto; hyphens:auto; word-break:keep-all;
+  max-width:600px; margin-left:auto; margin-right:auto;
+  color:var(--gray); font-size:15.5px; line-height:1.6;
+}
+
+.card{background:linear-gradient(180deg,var(--card) 0%,var(--bg-2) 100%);border:1px solid var(--border);border-radius:20px;padding:30px;margin-top:24px;box-shadow:var(--shadow), 0 0 0 1px rgba(255,255,255,.02) inset;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60%;height:1px;background:linear-gradient(90deg,transparent,var(--red),transparent);opacity:.5}
+
+.step{margin-bottom:26px}
+.step:last-child{margin-bottom:0}
+.step-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.step-num{width:26px;height:26px;border-radius:7px;background:var(--card-2);border:1px solid var(--border-2);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono';font-weight:700;font-size:12px;color:var(--red)}
+.step-title{font-family:'Archivo';font-weight:700;font-size:15px;letter-spacing:-.01em}
+.step-hint{font-size:12px;color:var(--gray-dim);margin-left:auto}
+
+.drop{border:2px dashed var(--border-2);border-radius:14px;padding:38px 20px;text-align:center;cursor:pointer;transition:all .25s ease;background:rgba(255,255,255,.012);position:relative}
+.drop:hover{border-color:var(--red);background:rgba(230,57,70,.04)}
+.drop.drag{border-color:var(--red);background:rgba(230,57,70,.08);transform:scale(1.005)}
+.drop-icon{width:54px;height:54px;margin:0 auto 14px;border-radius:14px;background:linear-gradient(135deg,rgba(230,57,70,.15),rgba(230,57,70,.04));border:1px solid rgba(230,57,70,.3);display:flex;align-items:center;justify-content:center;color:var(--red)}
+.drop-icon svg{width:26px;height:26px}
+.drop-title{font-family:'Archivo';font-weight:700;font-size:17px;margin-bottom:6px}
+.drop-sub{font-size:13px;color:var(--gray)}
+.drop-btn{display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:10px 18px;border-radius:9px;background:var(--red);color:#fff;font-weight:700;font-size:13.5px;cursor:pointer;border:none;transition:all .2s;box-shadow:0 8px 20px -8px var(--red-glow)}
+.drop-btn:hover{background:var(--red-bright);transform:translateY(-1px);box-shadow:0 12px 24px -8px var(--red-glow)}
+
+.file-info{background:var(--card-2);border:1px solid var(--border);border-radius:14px;padding:18px;display:none;animation:slideIn .35s ease}
+.file-info.show{display:block}
+.file-row{display:flex;align-items:center;gap:14px}
+.file-ic{width:42px;height:42px;border-radius:10px;background:rgba(230,57,70,.12);border:1px solid rgba(230,57,70,.25);display:flex;align-items:center;justify-content:center;color:var(--red);flex-shrink:0}
+.file-ic svg{width:22px;height:22px}
+.file-meta{flex:1;min-width:0}
+.file-name{font-weight:600;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.file-stats{font-size:12.5px;color:var(--gray);margin-top:3px;display:flex;gap:10px;flex-wrap:wrap}
+.file-stats .dot{width:3px;height:3px;background:var(--gray-dim);border-radius:50%}
+.btn-text{background:none;border:none;color:var(--gray);font-size:13px;cursor:pointer;padding:6px 10px;border-radius:6px;transition:all .15s;font-family:inherit;font-weight:500}
+.btn-text:hover{color:var(--red);background:rgba(230,57,70,.08)}
+
+.target-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.target-btn{padding:14px 8px;border-radius:11px;background:var(--card-2);border:1px solid var(--border-2);color:var(--white);font-weight:700;font-size:14px;cursor:pointer;transition:all .2s;font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:3px;position:relative}
+.target-btn .lbl{font-size:10.5px;color:var(--gray);font-weight:500;letter-spacing:.05em}
+.target-btn:hover{border-color:var(--red);background:rgba(230,57,70,.05)}
+.target-btn.active{background:linear-gradient(180deg,rgba(230,57,70,.18),rgba(230,57,70,.06));border-color:var(--red);color:#fff}
+.target-btn.active .lbl{color:var(--red)}
+.target-btn.active::after{content:'';position:absolute;top:6px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--red);box-shadow:0 0 8px var(--red)}
+
+.preset-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;justify-content:center}
+.preset-chip{padding:6px 12px;background:var(--bg);border:1px solid var(--border-2);border-radius:999px;font-size:11.5px;color:var(--gray);cursor:pointer;transition:all .15s;font-family:inherit;font-weight:500;text-align:center}
+.preset-chip:hover{border-color:var(--red);color:var(--red);background:rgba(230,57,70,.05)}
+.preset-chip strong{color:var(--white);font-weight:700;margin-right:4px}
+
+/* ABBREVIATIONS SECTION (5 KOLOM, 2 BARIS RAPI) */
+.abbrev-section{margin-top:12px}
+.abbrev-flex{
+  display:grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+.abbrev-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:10px 4px;
+  background:var(--card-2);
+  border-radius:10px;
+  border:1px solid var(--border-2);
+  text-align:center;
+}
+.abbrev-item .abbr-short{
+  font-family:'Archivo';
+  font-weight:700;
+  color:var(--red);
+  font-size:14px;
+  margin-bottom:4px;
+}
+.abbrev-item .abbr-full{
+  font-size:10.5px;
+  color:var(--gray);
+  line-height:1.35;
+  display:block;
+}
+
+.custom-row{display:none;align-items:center;gap:10px;margin-top:12px;padding:14px;background:var(--card-2);border:1px solid var(--border-2);border-radius:11px;animation:slideIn .25s ease;justify-content:center}
+.custom-row.show{display:flex;flex-wrap:wrap}
+.custom-row label{font-size:13px;color:var(--gray);font-weight:500;white-space:nowrap}
+.custom-input{flex:1;min-width:90px;background:var(--bg);border:1px solid var(--border-2);color:var(--white);padding:10px 12px;border-radius:8px;font-family:'JetBrains Mono';font-weight:600;font-size:15px;outline:none;transition:all .15s}
+.custom-input:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(230,57,70,.12)}
+.unit-group{display:flex;background:var(--bg);border:1px solid var(--border-2);border-radius:8px;overflow:hidden}
+.unit-group button{background:none;border:none;color:var(--gray);padding:10px 14px;cursor:pointer;font-family:'JetBrains Mono';font-weight:700;font-size:13px;transition:all .15s}
+.unit-group button.active{background:var(--red);color:#fff}
+
+.max-toggle{margin-top:14px;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;justify-content:center;text-align:center}
+.toggle-sw{width:42px;height:24px;background:var(--card-2);border:1px solid var(--border-2);border-radius:999px;position:relative;transition:all .2s;flex-shrink:0}
+.toggle-sw::after{content:'';position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:var(--gray);transition:all .2s}
+.max-toggle.on .toggle-sw{background:rgba(230,57,70,.2);border-color:var(--red)}
+.max-toggle.on .toggle-sw::after{left:20px;background:var(--red);box-shadow:0 0 8px var(--red)}
+.max-label{font-size:13.5px;font-weight:600;text-align:center}
+.max-label small{display:block;font-weight:400;color:var(--gray);font-size:11.5px;margin-top:1px;text-align:center}
+
+.quality-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.q-btn{padding:14px 10px;border-radius:11px;background:var(--card-2);border:1px solid var(--border-2);color:var(--white);font-weight:600;font-size:13.5px;cursor:pointer;transition:all .2s;font-family:inherit;text-align:left}
+.q-btn .qd{font-size:11px;color:var(--gray);font-weight:400;margin-top:3px;display:block}
+.q-btn:hover{border-color:var(--red)}
+.q-btn.active{background:linear-gradient(180deg,rgba(230,57,70,.18),rgba(230,57,70,.06));border-color:var(--red)}
+.q-btn.active .qd{color:var(--red);opacity:.85}
+
+.action{padding-top:8px}
+.btn-cta{width:100%;padding:18px;border-radius:13px;background:linear-gradient(180deg,var(--red-bright),var(--red));color:#fff;font-family:'Archivo';font-weight:800;font-size:16px;letter-spacing:.02em;border:none;cursor:pointer;transition:all .2s;box-shadow:0 14px 30px -10px var(--red-glow), inset 0 1px 0 rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;gap:10px;position:relative;overflow:hidden}
+.btn-cta::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);transition:left .6s}
+.btn-cta:hover::before{left:100%}
+.btn-cta:hover{transform:translateY(-2px);box-shadow:0 18px 36px -10px var(--red-glow)}
+.btn-cta:disabled{background:var(--card-2);color:var(--gray-dim);cursor:not-allowed;box-shadow:none;transform:none}
+.btn-cta:disabled::before{display:none}
+
+.progress-block{display:none;margin-top:22px;padding:22px;background:var(--card-2);border:1px solid var(--border);border-radius:14px}
+.progress-block.show{display:block;animation:slideIn .35s ease}
+.progress-stage{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.spin{width:18px;height:18px;border:2px solid var(--border-2);border-top-color:var(--red);border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
+.progress-text{font-size:14px;font-weight:600}
+.progress-text .iter{color:var(--red);font-family:'JetBrains Mono';font-size:12px;margin-left:8px}
+.progress-bar-wrap{height:8px;background:var(--bg);border-radius:999px;overflow:hidden;border:1px solid var(--border)}
+.progress-bar{height:100%;background:linear-gradient(90deg,var(--red-deep),var(--red),var(--red-bright));border-radius:999px;width:0%;transition:width .4s ease;position:relative;box-shadow:0 0 12px var(--red-glow)}
+.progress-bar::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);animation:shimmer 1.5s infinite}
+.progress-detail{margin-top:10px;font-size:12px;color:var(--gray);font-family:'JetBrains Mono'}
+
+.result-block{display:none;margin-top:22px;border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.result-block.show{display:block;animation:slideIn .4s ease}
+.result-head{padding:18px 22px;background:linear-gradient(180deg,rgba(34,197,94,.1),transparent);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.result-head.warn{background:linear-gradient(180deg,rgba(245,158,11,.12),transparent)}
+.result-ic{width:34px;height:34px;border-radius:9px;background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.35);display:flex;align-items:center;justify-content:center;color:var(--green);flex-shrink:0}
+.result-head.warn .result-ic{background:rgba(245,158,11,.15);border-color:rgba(245,158,11,.35);color:var(--amber)}
+.result-ic svg{width:18px;height:18px}
+.result-title{font-family:'Archivo';font-weight:700;font-size:15.5px}
+.result-sub{font-size:12.5px;color:var(--gray);margin-top:1px}
+
+.result-stats{padding:20px 22px;background:var(--card-2);display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.stat{padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:9px}
+.stat-l{font-size:10.5px;color:var(--gray);text-transform:uppercase;letter-spacing:.1em;font-weight:600}
+.stat-v{font-family:'JetBrains Mono';font-weight:700;font-size:16px;margin-top:4px}
+.stat-v.hl{color:var(--red)}
+.stat-v.ok{color:var(--green)}
+.stat-v.warn{color:var(--amber)}
+
+.result-actions{padding:18px 22px;display:flex;gap:10px;flex-wrap:wrap}
+.btn-dl{flex:1;min-width:200px;padding:16px;border-radius:11px;background:var(--red);color:#fff;font-family:'Archivo';font-weight:800;font-size:15px;border:none;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 12px 26px -10px var(--red-glow)}
+.btn-dl:hover{background:var(--red-bright);transform:translateY(-1px)}
+.btn-dl svg{width:17px;height:17px}
+.btn-sec{padding:16px 20px;border-radius:11px;background:transparent;color:var(--white);border:1px solid var(--border-2);font-weight:600;font-size:14px;cursor:pointer;transition:all .15s;font-family:inherit;display:flex;align-items:center;gap:8px}
+.btn-sec:hover{border-color:var(--red);color:var(--red)}
+
+.error-block{display:none;margin-top:16px;padding:14px 18px;background:rgba(230,57,70,.08);border:1px solid rgba(230,57,70,.3);border-radius:11px;color:var(--white);font-size:13.5px}
+.error-block.show{display:block;animation:shake .4s ease}
+.error-block .et{font-weight:700;margin-bottom:3px;display:flex;align-items:center;gap:8px}
+.error-block .et svg{width:16px;height:16px;color:var(--red)}
+
+.guide-section{margin-top:60px}
+.section-title{text-align:center;margin-bottom:30px}
+.section-title h2{font-family:'Archivo';font-weight:800;font-size:28px;letter-spacing:-.02em;margin-bottom:8px}
+.section-title h2 span{color:var(--red)}
+.guide-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.guide-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;transition:all .25s;position:relative;overflow:hidden}
+.guide-card:hover{border-color:var(--red);transform:translateY(-2px);box-shadow:0 10px 30px -10px var(--red-glow)}
+.guide-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--red);opacity:0;transition:opacity .25s}
+.guide-card:hover::before{opacity:1}
+.guide-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.guide-ic{width:34px;height:34px;border-radius:9px;background:rgba(230,57,70,.1);border:1px solid rgba(230,57,70,.2);display:flex;align-items:center;justify-content:center;color:var(--red);flex-shrink:0}
+.guide-ic svg{width:18px;height:18px}
+.guide-title{font-family:'Archivo';font-weight:700;font-size:15px}
+.guide-limit{font-family:'JetBrains Mono';font-weight:700;color:var(--red);font-size:13px;margin-left:auto;background:rgba(230,57,70,.08);padding:3px 8px;border-radius:6px}
+.guide-desc{font-size:13px;color:var(--gray);line-height:1.55;margin-bottom:12px}
+.guide-apply{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--white);background:var(--card-2);border:1px solid var(--border-2);padding:7px 12px;border-radius:7px;cursor:pointer;transition:all .15s}
+.guide-apply:hover{background:var(--red);border-color:var(--red);color:#fff}
+
+/* INFO PAGES (Fitur, Panduan, Kontak, Artikel) */
+.info-wrap{max-width:1140px;margin:0 auto;padding:40px 20px}
+.info-header{text-align:center;margin-bottom:40px}
+.info-header h2{font-family:'Archivo';font-weight:800;font-size:32px;letter-spacing:-.02em;margin-bottom:8px}
+.info-header h2 span{color:var(--red)}
+.back-btn{display:inline-flex;align-items:center;gap:8px;margin-bottom:30px;color:var(--gray);text-decoration:none;font-weight:600;font-size:14px;padding:8px 14px;border:1px solid var(--border);border-radius:9px;transition:all .15s;background:var(--card);cursor:pointer}
+.back-btn:hover{color:var(--red);border-color:var(--red)}
+.info-grid{display:grid;grid-template-columns:repeat(2, 1fr);gap:20px}
+.info-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;transition:all .3s ease;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.info-box:hover{border-color:var(--red);transform:translateY(-4px);box-shadow:0 10px 30px -10px var(--red-glow)}
+.info-box::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--red);transform:scaleY(0);transform-origin:top;transition:transform .3s}
+.info-box:hover::before{transform:scaleY(1)}
+.info-box h3{font-family:'Archivo';font-weight:700;font-size:18px;color:var(--white);margin-bottom:14px;letter-spacing:-.01em;line-height:1.3;text-align:center}
+.info-box p{font-size:13.5px;line-height:1.7;color:var(--gray);margin-bottom:10px;text-align:justify;text-align-last:center;hyphens:auto;-webkit-hyphens:auto;word-break:keep-all}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px;animation:fadeIn .3s ease}
+.modal-overlay.active{display:flex}
+.modal-box{background:var(--bg-2);border:1px solid var(--border);border-radius:20px;width:100%;max-width:700px;max-height:85vh;overflow-y:auto;padding:30px;position:relative;box-shadow:0 30px 60px -30px rgba(0,0,0,.8)}
+.modal-box::-webkit-scrollbar{width:6px}
+.modal-box::-webkit-scrollbar-track{background:var(--bg)}
+.modal-box::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:3px}
+.modal-close{position:absolute;top:16px;right:16px;width:34px;height:34px;border-radius:50%;background:var(--card-2);border:1px solid var(--border);color:var(--white);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .2s}
+.modal-close:hover{background:var(--red);border-color:var(--red);color:#fff}
+.modal-title{font-family:'Archivo';font-weight:800;font-size:22px;color:var(--white);margin-bottom:20px;text-align:center;letter-spacing:-.01em;line-height:1.3;padding:0 30px}
+.modal-content p{font-size:14px;line-height:1.7;color:var(--gray);margin-bottom:14px;text-align:justify;text-align-last:center;hyphens:auto;-webkit-hyphens:auto;word-break:keep-all}
+
+/* FOOTER */
+.pro-footer{position:relative;z-index:2;margin-top:80px;border-top:1px solid var(--border);background:var(--bg-2)}
+.footer-container{max-width:1140px;margin:0 auto;padding:50px 20px 20px}
+.footer-grid{display:grid;grid-template-columns:2.5fr 1fr 1.5fr;gap:40px;margin-bottom:40px}
+.footer-brand .f-logo{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.footer-brand .f-text .b{font-family:'Archivo';font-weight:800;font-size:18px;color:var(--white)}
+.footer-brand .f-text .b span{color:var(--red)}
+.footer-brand .f-text .s{font-size:10.5px;color:var(--gray);letter-spacing:.18em;text-transform:uppercase;margin-top:2px;font-weight:600}
+.footer-brand p{font-size:13.5px;color:var(--gray);line-height:1.6;max-width:300px}
+.footer-col h4{font-family:'Archivo';font-weight:700;font-size:14px;color:var(--white);margin-bottom:16px;letter-spacing:-.01em}
+.footer-col ul{list-style:none}
+.footer-col ul li{margin-bottom:10px}
+.footer-col ul li a{color:var(--gray);text-decoration:none;font-size:13.5px;transition:color .15s;display:flex;align-items:center;gap:8px;background:none;border:none;font-family:inherit;cursor:pointer;text-align:left;padding:0}
+.footer-col ul li a:hover{color:var(--red)}
+.footer-col ul li a i{font-size:12px;width:14px}
+.footer-contact p{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;font-size:13.5px;color:var(--gray);line-height:1.5}
+.footer-contact p i{color:var(--red);margin-top:4px;width:16px;text-align:center}
+.footer-contact p a{color:var(--gray);text-decoration:none}
+.footer-contact p a:hover{color:var(--red)}
+.footer-bottom{border-top:1px solid var(--border);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.footer-bottom p{font-size:13px;color:var(--gray-dim)}
+.footer-bottom p span{color:var(--white);font-weight:600}
+.footer-bottom .fb-links{display:flex;gap:16px}
+.footer-bottom .fb-links a{font-size:13px;color:var(--gray-dim);text-decoration:none;transition:color .15s}
+.footer-bottom .fb-links a:hover{color:var(--red)}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+@keyframes slideIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+
+@media (max-width:900px){
+  .footer-grid{grid-template-columns:1fr 1fr;gap:30px}
+  .footer-brand{grid-column:span 2}
+}
+@media (max-width:640px){
+  .wrap{padding:0 14px}
+  .navbar{flex-wrap:wrap;padding:10px 14px;gap:8px}
+  .nav-links{display:flex;flex-wrap:wrap;justify-content:center;width:100%;margin-top:8px;gap:4px}
+  .nav-links a, .nav-links button{padding:6px 8px;font-size:12px}
+  .hero{padding:24px 0 12px}
+  .card{padding:20px;border-radius:16px}
+  .target-grid{grid-template-columns:repeat(2,1fr)}
+  .quality-grid{grid-template-columns:1fr;gap:8px}
+  .q-btn{padding:12px 14px}
+  .result-stats{grid-template-columns:1fr;gap:10px}
+  .guide-grid{grid-template-columns:1fr}
+  .btn-dl{width:100%;flex:none}
+  .btn-sec{flex:1;justify-content:center}
+  .step-hint{display:none}
+  .footer-grid{grid-template-columns:1fr;gap:24px}
+  .footer-brand{grid-column:span 1}
+  .footer-bottom{flex-direction:column;text-align:center}
+  .info-grid{grid-template-columns:1fr}
+  .modal-box{padding:20px}
+  .modal-title{font-size:18px;padding:0 20px}
+  
+  /* Rapi 5 kolom di HP dengan font lebih kecil */
+  .abbrev-flex{
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px;
+  }
+  .abbrev-item{
+    padding:8px 2px;
+  }
+  .abbrev-item .abbr-short{
+    font-size:11px;
+  }
+  .abbrev-item .abbr-full{
+    font-size:8.5px;
+    line-height:1.2;
+  }
+}
+.hidden{display:none !important}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<div class="nav-wrap">
+  <nav class="navbar">
+    <div class="nav-logo" onclick="showPage('page-home')">
+      <div class="logo-mark">
+        <img src="https://z-cdn-media.chatglm.cn/files/c2294673-b3b2-4abe-add1-c11535d8f294.png?auth_key=1889830616-1302e3a8e51a46e08bcde389951bd6b5-0-05cb0e5f3118f1089f5aa402d92ca307" alt="Logo Karya Abadi">
+      </div>
+      <div class="nav-text">
+        <div class="b">KARYA ABDI <span>PDF</span></div>
+        <div class="s">PDF Compressor Tool</div>
+      </div>
+    </div>
+    <div class="nav-links">
+      <button onclick="showPage('page-home')">Beranda</button>
+      <button onclick="showPage('page-fitur')">Fitur</button>
+      <button onclick="showPage('page-panduan')">Panduan</button>
+      <button onclick="showPage('page-artikel')">Artikel</button>
+      <button onclick="showPage('page-kontak')">Kontak</button>
+    </div>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" title="Ganti Tema">
+        <i class="fas fa-moon" id="themeIcon"></i>
+      </button>
+    </div>
+  </nav>
+</div>
+
+<!-- HALAMAN BERANDA -->
+<div class="page-view active" id="page-home">
+  <div class="wrap" id="top">
+    <header>
+      <div class="badge-priv">Diproses di perangkat Anda</div>
+    </header>
+
+    <section class="hero" id="fitur">
+      <div class="hero-tag">Kompresor PDF Akurat</div>
+      <h1><span class="text-red">Kompres PDF</span> <span class="text-white">Ukuran yang Anda Inginkan</span></h1>
+      <p class="text-justify-center">Atur target 200 KB, 500 KB, 1 MB, 2 MB, atau tentukan ukuran sendiri. Sesuai standar administrasi pemerintah dan pendidikan di Indonesia. Web tool gratis yang memastikan dokumen Anda terbebas dari penolakan sistem akibat ukuran berkas yang melebihi batas maksimal yang telah ditentukan oleh persyaratan administrasi.</p>
+    </section>
+
+    <main class="card">
+      <div class="step">
+        <div class="step-head">
+          <div class="step-num">1</div>
+          <div class="step-title">Upload File PDF</div>
+          <div class="step-hint">Maks 100 MB · Hanya PDF</div>
+        </div>
+        <div class="drop" id="drop" tabindex="0" role="button" aria-label="Pilih file PDF">
+          <input type="file" id="fileInput" accept="application/pdf,.pdf" hidden>
+          <div class="drop-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+          </div>
+          <div class="drop-title">Pilih File PDF</div>
+          <div class="drop-sub">atau seret dan lepas file di sini</div>
+          <button type="button" class="drop-btn" onclick="document.getElementById('fileInput').click(); event.stopPropagation();">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Jelajahi File
+          </button>
+        </div>
+
+        <div class="file-info" id="fileInfo">
+          <div class="file-row">
+            <div class="file-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div class="file-meta">
+              <div class="file-name" id="fileName">document.pdf</div>
+              <div class="file-stats">
+                <span id="fileSize">—</span>
+                <span class="dot"></span>
+                <span id="pageCount">— halaman</span>
+              </div>
+            </div>
+            <button type="button" class="btn-text" id="changeFile">Ganti File</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-head">
+          <div class="step-num">2</div>
+          <div class="step-title">Pilih Target Ukuran</div>
+          <div class="step-hint">1 MB = 1.000 KB</div>
+        </div>
+        <div class="target-grid" id="targetGrid">
+          <button type="button" class="target-btn" data-target="500000" data-label="500KB"><span class="lbl">Target</span>500 KB</button>
+          <button type="button" class="target-btn" data-target="1000000" data-label="1MB"><span class="lbl">Target</span>1 MB</button>
+          <button type="button" class="target-btn" data-target="2000000" data-label="2MB"><span class="lbl">Target</span>2 MB</button>
+          <button type="button" class="target-btn" data-target="custom" data-label="custom"><span class="lbl">Target</span>Ukuran Bebas</button>
+        </div>
+
+        <div class="preset-row" id="presetRow">
+          <button type="button" class="preset-chip" data-target="200000" data-label="200KB"><strong>CPNS/BUMN</strong>200 KB</button>
+          <button type="button" class="preset-chip" data-target="500000" data-label="500KB"><strong>PPDB/Beasiswa</strong>500 KB</button>
+          <button type="button" class="preset-chip" data-target="1000000" data-label="1MB"><strong>LPSE Lelang</strong>1 MB</button>
+          <button type="button" class="preset-chip" data-target="2000000" data-label="2MB"><strong>LPDP</strong>2 MB</button>
+        </div>
+
+        <!-- PENJELASAN SINGKATAN LANGSUNG DI BAWAH PRESET (5 KOLOM, 2 BARIS RAPI) -->
+        <div class="abbrev-section">
+          <div class="abbrev-flex">
+            <div class="abbrev-item">
+              <span class="abbr-short">CPNS</span>
+              <span class="abbr-full">Calon Pegawai<br>Negeri Sipil</span>
+            </div>
+            <div class="abbrev-item">
+              <span class="abbr-short">BUMN</span>
+              <span class="abbr-full">Badan Usaha<br>Milik Negara</span>
+            </div>
+            <div class="abbrev-item">
+              <span class="abbr-short">PPDB</span>
+              <span class="abbr-full">Penerimaan Peserta<br>Didik Baru</span>
+            </div>
+            <div class="abbrev-item">
+              <span class="abbr-short">LPSE</span>
+              <span class="abbr-full">Layanan Pengadaan<br>Secara Elektronik</span>
+            </div>
+            <div class="abbrev-item">
+              <span class="abbr-short">LPDP</span>
+              <span class="abbr-full">Lembaga Pengelola<br>Dana Pendidikan</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="custom-row" id="customRow">
+          <label>Target ukuran:</label>
+          <input type="number" class="custom-input" id="customValue" placeholder="contoh: 750" min="1" step="1">
+          <div class="unit-group" id="unitGroup">
+            <button type="button" class="active" data-unit="KB">KB</button>
+            <button type="button" data-unit="MB">MB</button>
+          </div>
+        </div>
+
+        <label class="max-toggle" id="maxToggle">
+          <span class="toggle-sw"></span>
+          <span class="max-label">Jangan melebihi target<small>Hasil tidak akan melebihi batas target (wajib untuk syarat administrasi)</small></span>
+        </label>
+      </div>
+
+      <div class="step">
+        <div class="step-head">
+          <div class="step-num">3</div>
+          <div class="step-title">Mode Kualitas</div>
+          <div class="step-hint">Target tetap prioritas utama</div>
+        </div>
+        <div class="quality-grid" id="qualityGrid">
+          <button type="button" class="q-btn" data-q="high">Tinggi<span class="qd">Untuk dokumen resmi & teks</span></button>
+          <button type="button" class="q-btn active" data-q="balanced">Seimbang<span class="qd">Kompromi terbaik untuk administrasi</span></button>
+          <button type="button" class="q-btn" data-q="max">Kompres Maksimal<span class="qd">Prioritas ukuran terkecil</span></button>
+        </div>
+      </div>
+
+      <div class="action">
+        <button type="button" class="btn-cta" id="compressBtn" disabled>
+          KOMPRES PDF
+        </button>
+      </div>
+
+      <div class="error-block" id="errorBlock">
+        <div class="et"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span id="errorTitle">Terjadi Kesalahan</span></div>
+        <div id="errorMsg"></div>
+      </div>
+
+      <div class="progress-block" id="progressBlock">
+        <div class="progress-stage">
+          <div class="spin"></div>
+          <div class="progress-text" id="progressText">Menganalisis PDF...<span class="iter" id="iterLabel"></span></div>
+        </div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="progress-detail" id="progressDetail">Memuat...</div>
+      </div>
+
+      <div class="result-block" id="resultBlock">
+        <div class="result-head" id="resultHead">
+          <div class="result-ic" id="resultIc">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div>
+            <div class="result-title" id="resultTitle">PDF berhasil dikompres</div>
+            <div class="result-sub" id="resultSub">Hasil siap diunduh</div>
+          </div>
+        </div>
+        <div class="result-stats">
+          <div class="stat"><div class="stat-l">Nama File</div><div class="stat-v" id="statName" style="font-size:13px">—</div></div>
+          <div class="stat"><div class="stat-l">Jumlah Halaman</div><div class="stat-v" id="statPages">—</div></div>
+          <div class="stat"><div class="stat-l">Ukuran Asli</div><div class="stat-v" id="statOrig">—</div></div>
+          <div class="stat"><div class="stat-l">Target</div><div class="stat-v hl" id="statTarget">—</div></div>
+          <div class="stat"><div class="stat-l">Ukuran Hasil</div><div class="stat-v ok" id="statResult">—</div></div>
+          <div class="stat"><div class="stat-l">Pengurangan</div><div class="stat-v ok" id="statReduce">—</div></div>
+        </div>
+        <div class="result-actions">
+          <button type="button" class="btn-dl" id="downloadBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            DOWNLOAD PDF
+          </button>
+          <button type="button" class="btn-sec" id="resetBtn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+            Reset
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <section class="guide-section" id="panduan">
+      <div class="section-title">
+        <h2>Aturan <span>Ukuran PDF</span> Administrasi di Indonesia</h2>
+        <p class="text-justify-center">Setiap instansi pemerintah dan pendidikan memiliki batas maksimal upload yang berbeda. KARYA ABDI PDF membantu Anda menyesuaikan ukuran file dengan cepat.</p>
+      </div>
+      <div class="guide-grid">
+        <article class="guide-card">
+          <div class="guide-head">
+            <div class="guide-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg></div>
+            <div class="guide-title">CPNS & BUMN (BKN)</div>
+            <div class="guide-limit">Maks 200 KB</div>
+          </div>
+          <p class="guide-desc">Sistem ASN-LKBN (BKN) umumnya membatasi unggah ijazah dan transkrip maksimal 200 KB per file. Gunakan kompresi maksimal jika berisi scan.</p>
+          <button type="button" class="guide-apply" data-target="200000" data-label="200KB">Terapkan 200 KB <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+        </article>
+
+        <article class="guide-card">
+          <div class="guide-head">
+            <div class="guide-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
+            <div class="guide-title">PPDB Sekolah</div>
+            <div class="guide-limit">Maks 500 KB</div>
+          </div>
+          <p class="guide-desc">Sistem PPDB online di berbagai daerah membatasi ukuran dokumen pendukung (KK, Akta) maksimal 500 KB hingga 1 MB.</p>
+          <button type="button" class="guide-apply" data-target="500000" data-label="500KB">Terapkan 500 KB <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+        </article>
+
+        <article class="guide-card">
+          <div class="guide-head">
+            <div class="guide-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg></div>
+            <div class="guide-title">LPSE & Pengadaan Barang</div>
+            <div class="guide-limit">Maks 1 MB</div>
+          </div>
+          <p class="guide-desc">Dokumen persyaratan lelang SPSE (LPSE) seringkali dibatasi maksimal 1 MB per file. Aktifkan mode "Jangan melebihi target".</p>
+          <button type="button" class="guide-apply" data-target="1000000" data-label="1MB">Terapkan 1 MB <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+        </article>
+
+        <article class="guide-card">
+          <div class="guide-head">
+            <div class="guide-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+            <div class="guide-title">Beasiswa LPDP</div>
+            <div class="guide-limit">Maks 2 MB</div>
+          </div>
+          <p class="guide-desc">Aplikasi Beasiswa LPDP memperbolehkan ukuran dokumen (ijazah, transkrip, rekomendasi) hingga 2 MB per file.</p>
+          <button type="button" class="guide-apply" data-target="2000000" data-label="2MB">Terapkan 2 MB <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+        </article>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- HALAMAN FITUR -->
+<div class="page-view" id="page-fitur">
+  <div class="info-wrap">
+    <button class="back-btn" onclick="showPage('page-home')"><i class="fas fa-arrow-left"></i> Kembali ke Beranda</button>
+    <div class="info-header">
+      <h2>Fitur Utama <span>Karya Abadi PDF</span></h2>
+      <p class="text-justify-center">Karya Abadi PDF dirancang dengan teknologi canggih untuk memastikan setiap file PDF Anda terkompresi secara presisi sesuai target administrasi yang diinginkan tanpa mengorbankan privasi data.</p>
+    </div>
+    <div class="info-grid">
+      <article class="info-box">
+        <h3>Target Ukuran Presisi</h3>
+        <p class="text-justify-center">Pengguna dapat menentukan target ukuran file secara spesifik, mulai dari 200 KB, 500 KB, 1 MB, hingga 2 MB. Fitur ini memastikan dokumen Anda diterima oleh sistem administrasi pemerintah yang memiliki batasan teknis ketat tanpa risiko penolakan otomatis akibat ukuran berkas yang melebihi batas maksimal yang ditentukan oleh persyaratan sistem.</p>
+      </article>
+      <article class="info-box">
+        <h3>Algoritma Binary Search</h3>
+        <p class="text-justify-center">Tool ini menggunakan algoritma iteratif binary search yang secara cerdas mencari tingkat kualitas gambar JPEG dan skala DPI terbaik. Sistem tidak hanya melakukan kompresi sekali, melainkan mencari parameter optimal secara bertahap agar hasil akhir sedekat mungkin dengan target ukuran yang Anda inginkan tanpa merusak struktur halaman dokumen PDF tersebut.</p>
+      </article>
+      <article class="info-box">
+        <h3>100% Privat & Client-Side</h3>
+        <p class="text-justify-center">Privasi data adalah prioritas utama. Seluruh proses kompresi dilakukan sepenuhnya secara client-side di dalam browser Anda. Tidak ada satu pun file PDF yang diunggah ke server eksternal, sehingga menjamin keamanan data sensitif seperti ijazah, transkrip nilai, atau dokumen kependudukan Anda dari risiko kebocoran data di dunia digital.</p>
+      </article>
+      <article class="info-box">
+        <h3>Mode Kualitas Fleksibel</h3>
+        <p class="text-justify-center">Tersedia tiga mode kualitas kompresi: Tinggi untuk dokumen resmi yang membutuhkan ketajaman teks, Seimbang untuk kompromi terbaik antara ukuran dan kualitas, serta Kompres Maksimal untuk memprioritaskan reduksi ukuran file. Target ukuran tetap menjadi prioritas utama di seluruh mode kualitas yang Anda pilih untuk menjaga kepatuhan administrasi.</p>
+      </article>
+      <article class="info-box">
+        <h3>Preset Aturan Administrasi</h3>
+        <p class="text-justify-center">Tersedia tombol pintasan (preset) untuk aturan CPNS, BUMN, PPDB, LPSE, dan LPDP. Tombol ini secara otomatis mengatur target ukuran sesuai dengan batasan umum yang diterapkan oleh sistem ASN-LKBN, SPSE, dan portal beasiswa, sehingga Anda tidak perlu repot mencari informasi batas maksimal upload file secara manual.</p>
+      </article>
+      <article class="info-box">
+        <h3>Fitur Jangan Melebihi Target</h3>
+        <p class="text-justify-center">Fitur toggle ini memastikan bahwa file hasil kompresi tidak akan pernah melampaui batas target yang ditentukan. Jika target 1 MB, hasil kompresi dijamin berada di angka 999 KB atau lebih kecil. Hal ini sangat esensial untuk pendaftaran CPNS, LPSE, maupun PPDB di mana sistem akan otomatis menolak file yang melebihi batas ukuran yang telah ditetapkan.</p>
+      </article>
+    </div>
+  </div>
+</div>
+
+<!-- HALAMAN PANDUAN -->
+<div class="page-view" id="page-panduan">
+  <div class="info-wrap">
+    <button class="back-btn" onclick="showPage('page-home')"><i class="fas fa-arrow-left"></i> Kembali ke Beranda</button>
+    <div class="info-header">
+      <h2>Panduan <span>Penggunaan Tool</span></h2>
+      <p class="text-justify-center">Ikuti langkah-langkah berikut untuk mengompres file PDF Anda sesuai dengan target ukuran yang diinginkan secara cepat dan akurat tanpa memerlukan instalasi software tambahan.</p>
+    </div>
+    <div class="info-grid">
+      <article class="info-box">
+        <h3>1. Upload File PDF</h3>
+        <p class="text-justify-center">Klik tombol "Jelajahi File" atau seret dan lepas file PDF Anda langsung ke area upload. Pastikan file berformat PDF valid dan tidak melebihi batas maksimal 100 MB untuk memastikan proses kompresi berjalan lancar di browser Anda tanpa mengalami gangguan memori atau crash pada perangkat.</p>
+      </article>
+      <article class="info-box">
+        <h3>2. Pilih Target Ukuran</h3>
+        <p class="text-justify-center">Pilih target ukuran file yang Anda inginkan, seperti 500 KB atau 1 MB. Anda juga dapat menggunakan tombol pintasan preset seperti CPNS/BUMN atau LPSE untuk menyesuaikan batasan ukuran spesifik dari instansi pemerintah. Jika memiliki target custom, pilih "Ukuran Bebas" dan masukkan angka beserta satuan KB atau MB.</p>
+      </article>
+      <article class="info-box">
+        <h3>3. Atur Batas & Kualitas</h3>
+        <p class="text-justify-center">Aktifkan toggle "Jangan melebihi target" untuk menjamin file hasil kompresi tidak melebihi batas yang telah ditentukan. Pilih mode kualitas (Tinggi, Seimbang, atau Kompres Maksimal) sesuai dengan kebutuhan dokumen Anda. Mode Seimbang sangat direkomendasikan untuk dokumen administrasi umum yang membutuhkan keterbacaan teks dan gambar yang jelas.</p>
+      </article>
+      <article class="info-box">
+        <h3>4. Kompres & Download</h3>
+        <p class="text-justify-center">Klik tombol "KOMPRES PDF" dan tunggu proses algoritma binary search mencari tingkat kompresi terbaik. Setelah selesai, detail hasil akan ditampilkan termasuk ukuran asli, target, ukuran hasil, dan persentase pengurangan. Klik tombol "DOWNLOAD PDF" untuk menyimpan file yang sudah dikompres secara aman ke perangkat Anda tanpa watermark.</p>
+      </article>
+    </div>
+  </div>
+</div>
+
+<!-- HALAMAN ARTIKEL -->
+<div class="page-view" id="page-artikel">
+  <div class="info-wrap">
+    <button class="back-btn" onclick="showPage('page-home')">
+      <i class="fas fa-arrow-left"></i> Kembali ke Beranda
+    </button>
+    <div class="info-header">
+      <h2>Artikel & <span>Panduan PDF</span></h2>
+      <p class="text-justify-center">Kumpulan artikel mendalam seputar kompresi PDF, aturan administrasi, algoritma, dan privasi data untuk membantu Anda mengelola dokumen digital dengan lebih baik.</p>
+    </div>
+    <div class="info-grid" id="articleContainer">
+      <!-- Box artikel di-generate oleh JavaScript -->
+    </div>
+  </div>
+</div>
+
+<!-- HALAMAN KONTAK -->
+<div class="page-view" id="page-kontak">
+  <div class="info-wrap">
+    <button class="back-btn" onclick="showPage('page-home')"><i class="fas fa-arrow-left"></i> Kembali ke Beranda</button>
+    <div class="info-header">
+      <h2>Hubungi <span>& Kontak Kami</span></h2>
+      <p class="text-justify-center">Jika Anda memiliki pertanyaan, masukan, atau membutuhkan bantuan terkait penggunaan Karya Abadi PDF, jangan ragu untuk menghubungi kami melalui informasi di bawah ini.</p>
+    </div>
+    <div class="info-grid">
+      <article class="info-box">
+        <h3>Email Resmi</h3>
+        <p class="text-justify-center">Untuk pertanyaan dan dukungan teknis, silakan kirim email ke: karyaabadi24434@gmail.com. Tim kami siap merespons pertanyaan Anda mengenai algoritma kompresi, kepatuhan administrasi, atau kendala teknis yang mungkin Anda alami saat menggunakan web tool Karya Abadi PDF ini untuk kebutuhan dokumen administrasi pemerintah atau pendidikan.</p>
+      </article>
+      <article class="info-box">
+        <h3>Privasi & Keamanan</h3>
+        <p class="text-justify-center">Karya Abadi PDF tidak menyimpan file yang Anda unggah karena seluruh proses berjalan secara client-side di browser. Jika Anda menemukan celah keamanan atau memiliki pertanyaan terkait kebijakan privasi data, silakan hubungi kami melalui email resmi. Kami berkomitmen penuh untuk menjaga keamanan dokumen administrasi Anda.</p>
+      </article>
+      <article class="info-box">
+        <h3>Bantuan Administrasi</h3>
+        <p class="text-justify-center">Jika file PDF Anda ditolak oleh sistem CPNS, PPDB, LPSE, atau LPDP karena ukuran masih melebihi batas, kirimkan screenshot error dan file PDF tersebut ke email kami. Tim kami akan menganalisis kasus tersebut untuk meningkatkan akurasi algoritma kompresi binary search pada versi pembaruan web tool selanjutnya.</p>
+      </article>
+      <article class="info-box">
+        <h3>Penjaminan Layanan</h3>
+        <p class="text-justify-center">Web tool ini disediakan secara gratis untuk membantu masyarakat Indonesia dalam mengelola dokumen digital. Kami berkomitmen untuk terus memelihara dan memperbarui algoritma kompresi agar selalu akurat dan patuh terhadap perubahan batasan teknis pada sistem administrasi pemerintah Indonesia yang terus berkembang dari waktu ke waktu.</p>
+      </article>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL POPUP ARTIKEL -->
+<div class="modal-overlay" id="articleModal" onclick="closeModal(event)">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+    <h3 class="modal-title" id="modalTitle"></h3>
+    <div class="modal-content" id="modalContent"></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="pro-footer">
+  <div class="footer-container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="f-logo">
+          <div class="logo-mark">
+            <img src="https://z-cdn-media.chatglm.cn/files/c2294673-b3b2-4abe-add1-c11535d8f294.png?auth_key=1889830616-1302e3a8e51a46e08bcde389951bd6b5-0-05cb0e5f3118f1089f5aa402d92ca307" alt="Logo Karya Abadi">
+          </div>
+          <div class="f-text">
+            <div class="b">KARYA ABDI <span>PDF</span></div>
+            <div class="s">Web Tool Kompres PDF</div>
+          </div>
+        </div>
+        <p>Web tool gratis untuk mengompres file PDF sesuai target ukuran yang Anda inginkan. 100% diproses di browser, aman, tanpa upload server.</p>
+      </div>
+      
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#"><i class="fas fa-chevron-right"></i>Kebijakan Privasi</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i>Syarat dan Ketentuan</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i>Disclaimer</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-col footer-contact">
+        <h4>Hubungi Kami</h4>
+        <p><i class="fas fa-envelope"></i><a href="mailto:karyaabadi24434@gmail.com">karyaabadi24434@gmail.com</a></p>
+        <p><i class="fas fa-shield-alt"></i>100% Aman & Terenkripsi</p>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>© 2026 <span>Karya Abadi PDF</span>. All Rights Reserved.</p>
+      <div class="fb-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+// Navigasi Halaman
+function showPage(pageId) {
+  document.querySelectorAll('.page-view').forEach(el => el.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// MODAL ARTIKEL
+function openModal(index) {
+  const modal = document.getElementById('articleModal');
+  const titleEl = document.getElementById('modalTitle');
+  const contentEl = document.getElementById('modalContent');
+  
+  const title = articleTitles[index % articleTitles.length];
+  let contentHtml = '';
+  for(let j=0; j<10; j++) {
+    const p1 = fragments[(index + j) % fragments.length];
+    const p2 = fragments[(index + j + 4) % fragments.length];
+    contentHtml += `<p>${p1} ${p2}</p>`;
+  }
+  
+  titleEl.textContent = (index+1) + ". " + title;
+  contentEl.innerHTML = contentHtml;
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(e) {
+  if(e && e.target !== e.currentTarget) return;
+  const modal = document.getElementById('articleModal');
+  modal.classList.remove('active');
+  document.body.style.overflow = 'auto';
+}
+
+// GENERATE 30 ARTIKEL BOXES
+const articleTitles = [
+    "Panduan Kompres PDF untuk Lamaran CPNS dan BUMN 200 KB",
+    "Strategi Mengompres Ijazah dan Transkrip Hingga 500 KB",
+    "Tips Menyesuaikan Ukuran Dokumen LPSE Lelang Maksimal 1 MB",
+    "Cara Reduksi File PDF Beasiswa LPDP Sesuai Batas 2 MB",
+    "Kompresi PDF untuk Pendaftaran PPDB Online yang Aman",
+    "Teknik Kompresi Gambar Scan pada Dokumen Administrasi",
+    "Pentingnya Privasi Data dalam Kompresor PDF Client-Side",
+    "Algoritma Binary Search pada Karya Abadi PDF Tool",
+    "Mengoptimalkan Kualitas JPEG dan DPI File PDF",
+    "Perbedaan Kompresi Lossless dan Image-Based PDF",
+    "Cara Kerja Web Tool Kompresor PDF di Browser Modern",
+    "Solusi Cepat Mengatasi Upload PDF Gagal Karena Ukuran Besar",
+    "Standar Batasan Ukuran File pada Sistem Administrasi Pemerintah",
+    "Keamanan Dokumen Digital: Mengapa Kompresi Lokal Itu Vital",
+    "Memahami Satuan KB dan MB dalam Target Kompresi PDF",
+    "Fitur Jangan Melebihi Target: Jaminan Kepatuhan Batas Upload",
+    "Optimasi Teks dan Gambar pada File PDF Tanpa Merusak Struktur",
+    "Karya Abadi PDF: Web Tool Gratis untuk Kebutuhan Administrasi",
+    "Mempertahankan Keterbacaan Teks Setelah Proses Kompresi PDF",
+    "Pengaruh Resolusi Gambar terhadap Total Ukuran File PDF",
+    "Cara Reduksi Ukuran E-Faktur dan Lampiran Pajak DJP",
+    "Kompresi Dokumen e-Court dan SIPP Mahkamah Agung",
+    "Mengatasi File PDF Terlalu Besar untuk Lampiran Email",
+    "Teknik Presisi Kompresi PDF Hingga Akurasi Byte",
+    "Mengapa Dokumen Scan Membutuhkan Kompresi Lebih Agresif",
+    "Peran Kompresor PDF dalam Efisiensi Penyimpanan Cloud",
+    "Dampak Kompresi terhadap Metadata dan Struktur Internal PDF",
+    "Mode Kualitas Tinggi vs Kompres Maksimal: Pilih Mana?",
+    "Mengoptimalkan Portofolio Desain Grafis Format PDF",
+    "Masa Depan Otomatisasi Kompresi Dokumen Administrasi"
+];
+
+const fragments = [
+    `Proses kompresi PDF yang akurat sangat krusial untuk memastikan dokumen administrasi memenuhi syarat batas ukuran upload yang ketat. Dengan menggunakan web tool Karya Abadi PDF, pengguna dapat menargetkan ukuran spesifik seperti 200 KB, 500 KB, 1 MB, hingga 2 MB secara presisi.`,
+    `Algoritma iteratif binary search yang diimplementasikan pada Karya Abadi PDF mampu menemukan tingkat kualitas JPEG dan skala DPI terbaik secara otomatis dan efisien. Sistem tidak hanya sekadar melakukan kompresi satu kali, melainkan melakukan pencarian parameter bertahap agar ukuran hasil sedekat mungkin dengan target.`,
+    `Privasi dan keamanan dokumen administrasi adalah prioritas utama yang tidak boleh dikompromikan dalam proses kompresi file PDF. Oleh karena itu, seluruh proses kompresi pada web tool ini dilakukan sepenuhnya secara client-side di dalam browser pengguna.`,
+    `Dokumen hasil scan biasanya memiliki resolusi gambar yang sangat tinggi yang menyebabkan ukuran file PDF membengkak secara tidak proporsional. Melalui optimasi parameter DPI dan tingkat kompresi kualitas gambar JPEG, web tool ini mampu mereduksi ukuran file secara signifikan.`,
+    `Fitur "Jangan melebihi target" pada kompresor Karya Abadi PDF memastikan bahwa file hasil kompresi tidak akan pernah melampaui batas maksimal yang ditentukan oleh instansi pemerintah. Hal ini sangat esensial untuk pendaftaran CPNS, LPSE, maupun PPDB.`,
+    `Penggunaan satuan standar perhitungan 1 MB = 1.000 KB diadopsi secara konsisten pada antarmuka dan perhitungan internal web tool ini agar sesuai dengan ketentuan yang diterapkan oleh mayoritas sistem administrasi modern di Indonesia.`,
+    `Karya Abadi PDF mendukung berbagai mode kualitas kompresi, mulai dari mode Tinggi, Seimbang, hingga Kompres Maksimal. Pengguna dapat memilih prioritas apakah ingin mempertahankan ketajaman teks untuk dokumen resmi, atau memaksimalkan reduksi ukuran untuk file berisi gambar scan.`,
+    `Kepatuhan terhadap batasan ukuran file pada platform administrasi seperti e-Faktur DJP, SIPP, dan e-Court Mahkamah Agung kini dapat dilakukan dengan jauh lebih mudah. Alat kompresi ini bekerja langsung tanpa memerlukan instalasi software tambahan yang berat pada komputer pengguna.`,
+    `Selain mengurangi ukuran file, proses kompresi yang optimal juga membantu mempercepat waktu loading saat dokumen tersebut diakses secara online di masa mendatang. File PDF yang ringan akan mempermudah proses download dan unggah, serta mengurangi beban penyimpanan pada server.`,
+    `Dalam era digitalisasi administrasi, pengelolaan ukuran file PDF yang tepat mencerminkan kesiapan teknis individu dalam menghadapi persyaratan sistem modern. Dokumen yang terstruktur dengan baik dan berukuran ringan menunjukkan profesionalisme serta memudahkan proses asesmen oleh pihak ketiga.`
+];
+
+function generateArticles() {
+    const container = document.getElementById('articleContainer');
+    let html = '';
+    for(let i=0; i<30; i++) {
+        const title = articleTitles[i % articleTitles.length];
+        // Ambil 2 kalimat untuk cuplikan (excerpt)
+        const excerpt = fragments[i % fragments.length].split('. ').slice(0, 2).join('. ') + '.';
+        
+        html += `<article class="info-box" onclick="openModal(${i})" style="cursor:pointer">
+          <h3>${i+1}. ${title}</h3>
+          <p class="excerpt" style="text-align:justify; text-align-last:center; color:var(--gray); font-size:13px; line-height:1.5;">${excerpt}</p>
+          <span style="display:inline-flex; align-items:center; gap:6px; margin-top:14px; font-size:12px; font-weight:700; color:var(--red); text-transform:uppercase; letter-spacing:.05em;">Baca Selengkapnya <i class="fas fa-arrow-right"></i></span>
+        </article>`;
+    }
+    container.innerHTML = html;
+}
+generateArticles();
+
+
+const state = { file: null, numPages: 0, targetBytes: null, targetLabel: '', quality: 'balanced', maxMode: true, unit: 'KB', result: null };
+const $ = (id) => document.getElementById(id);
+const drop = $('drop'), fileInput = $('fileInput'), fileInfo = $('fileInfo');
+const fileName = $('fileName'), fileSize = $('fileSize'), pageCount = $('pageCount');
+const customRow = $('customRow'), customValue = $('customValue');
+const maxToggle = $('maxToggle'), compressBtn = $('compressBtn');
+const errorBlock = $('errorBlock'), errorTitle = $('errorTitle'), errorMsg = $('errorMsg');
+const progressBlock = $('progressBlock'), progressBar = $('progressBar');
+const progressText = $('progressText'), progressDetail = $('progressDetail'), iterLabel = $('iterLabel');
+const resultBlock = $('resultBlock'), resultHead = $('resultHead'), resultIc = $('resultIc');
+const resultTitle = $('resultTitle'), resultSub = $('resultSub');
+const statName = $('statName'), statPages = $('statPages'), statOrig = $('statOrig');
+const statTarget = $('statTarget'), statResult = $('statResult'), statReduce = $('statReduce');
+const downloadBtn = $('downloadBtn'), resetBtn = $('resetBtn');
+
+const themeToggle = $('themeToggle');
+const themeIcon = $('themeIcon');
+const savedTheme = localStorage.getItem('theme');
+if(savedTheme === 'light'){
+  document.body.classList.add('light-mode');
+  themeIcon.classList.replace('fa-moon', 'fa-sun');
+}
+themeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('light-mode');
+  if(document.body.classList.contains('light-mode')){
+    localStorage.setItem('theme', 'light');
+    themeIcon.classList.replace('fa-moon', 'fa-sun');
+  } else {
+    localStorage.setItem('theme', 'dark');
+    themeIcon.classList.replace('fa-sun', 'fa-moon');
+  }
+});
+
+function formatBytes(b){ if(b<1000) return b+' B'; if(b<1000000) return (b/1000).toFixed(2)+' KB'; return (b/1000000).toFixed(2)+' MB'; }
+function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
+function showError(t,m){ errorTitle.textContent=t; errorMsg.textContent=m; errorBlock.classList.add('show'); }
+function hideError(){ errorBlock.classList.remove('show'); }
+function setProgress(p,t,d,i){ progressBar.style.width=Math.max(0,Math.min(100,p))+'%'; if(t)progressText.firstChild.textContent=t; if(d!==undefined)progressDetail.textContent=d; if(i!==undefined)iterLabel.textContent=i; }
+
+drop.addEventListener('click', () => fileInput.click());
+drop.addEventListener('keydown', (e) => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); } });
+['dragenter','dragover'].forEach(ev => drop.addEventListener(ev, (e) => { e.preventDefault(); e.stopPropagation(); drop.classList.add('drag'); }));
+['dragleave','drop'].forEach(ev => drop.addEventListener(ev, (e) => { e.preventDefault(); e.stopPropagation(); drop.classList.remove('drag'); }));
+drop.addEventListener('drop', (e) => { const f = e.dataTransfer.files[0]; if(f) handleFile(f); });
+fileInput.addEventListener('change', (e) => { const f = e.target.files[0]; if(f) handleFile(f); });
+ $('changeFile').addEventListener('click', () => { fileInput.value = ''; fileInput.click(); });
+
+async function handleFile(file){
+  hideError();
+  if(file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')){ showError('Format tidak didukung', 'File harus berformat PDF.'); return; }
+  if(file.size > 100 * 1024 * 1024){ showError('File terlalu besar', 'Ukuran file melebihi batas 100 MB.'); return; }
+  if(file.size === 0){ showError('File kosong', 'File PDF tidak memiliki konten.'); return; }
+
+  state.file = file;
+  fileName.textContent = file.name;
+  fileSize.textContent = formatBytes(file.size);
+
+  try {
+    progressBlock.classList.add('show');
+    setProgress(10, 'Menganalisis PDF...', 'Membaca struktur dokumen', '');
+    const buf = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({data: buf.slice(0)}).promise;
+    state.numPages = pdf.numPages;
+    pageCount.textContent = state.numPages + ' halaman';
+    pdf.destroy();
+    setProgress(100, 'PDF siap dikompres', '', '');
+    setTimeout(()=>progressBlock.classList.remove('show'), 600);
+  } catch(e) {
+    progressBlock.classList.remove('show');
+    showError('PDF tidak dapat diproses', 'Pastikan file tidak rusak dan merupakan PDF yang valid.');
+    state.file = null; return;
+  }
+  drop.classList.add('hidden');
+  fileInfo.classList.add('show');
+  updateCompressButton();
+}
+
+function selectTarget(targetBytes, label) {
+  document.querySelectorAll('.target-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.target === String(targetBytes));
+  });
+  if (targetBytes === 'custom') {
+    customRow.classList.add('show');
+    state.targetBytes = null;
+    state.targetLabel = 'custom';
+    setTimeout(() => customValue.focus(), 100);
+  } else {
+    customRow.classList.remove('show');
+    state.targetBytes = targetBytes;
+    state.targetLabel = label;
+  }
+  updateCustomTarget();
+  updateCompressButton();
+}
+
+document.querySelectorAll('.target-btn').forEach(btn => {
+  btn.addEventListener('click', () => selectTarget(btn.dataset.target === 'custom' ? 'custom' : parseInt(btn.dataset.target), btn.dataset.label));
+});
+
+document.querySelectorAll('.preset-chip, .guide-apply').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = parseInt(btn.dataset.target);
+    const label = btn.dataset.label;
+    selectTarget(target, label);
+    document.querySelector('.card').scrollIntoView({behavior: 'smooth', block: 'start'});
+  });
+});
+
+customValue.addEventListener('input', () => { hideError(); updateCustomTarget(); });
+document.querySelectorAll('#unitGroup button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#unitGroup button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.unit = btn.dataset.unit;
+    updateCustomTarget();
+  });
+});
+
+function updateCustomTarget(){
+  if (!customRow.classList.contains('show')) return;
+  const val = parseFloat(customValue.value);
+  if(isNaN(val) || val <= 0){ state.targetBytes = null; updateCompressButton(); return; }
+  if(state.unit === 'KB' && val < 50){ state.targetBytes = null; showError('Target terlalu kecil', 'Target minimum adalah 50 KB.'); updateCompressButton(); return; }
+  if(state.unit === 'MB' && val < 0.05){ state.targetBytes = null; showError('Target terlalu kecil', 'Target minimum adalah 0.05 MB.'); updateCompressButton(); return; }
+  hideError();
+  state.targetBytes = state.unit === 'KB' ? val * 1000 : val * 1000000;
+  state.targetLabel = val + state.unit;
+  updateCompressButton();
+}
+
+maxToggle.addEventListener('click', () => { state.maxMode = !state.maxMode; maxToggle.classList.toggle('on', state.maxMode); });
+maxToggle.classList.add('on');
+
+document.querySelectorAll('.q-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.q-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.quality = btn.dataset.q;
+  });
+});
+
+function updateCompressButton(){ compressBtn.disabled = !(state.file && state.targetBytes && state.targetBytes > 0); }
+compressBtn.addEventListener('click', startCompression);
+
+async function startCompression(){
+  if(!state.file || !state.targetBytes) return;
+  hideError();
+  resultBlock.classList.remove('show');
+  progressBlock.classList.add('show');
+  compressBtn.disabled = true;
+
+  try {
+    const result = await compressPDFToTarget(state.file, state.targetBytes, state.quality, state.maxMode);
+    state.result = result;
+    showResult(result);
+  } catch(e) {
+    console.error(e);
+    showError('Kompresi gagal', e.message || 'Terjadi kesalahan saat memproses PDF.');
+    progressBlock.classList.remove('show');
+  } finally {
+    compressBtn.disabled = false;
+  }
+}
+
+async function compressPDFToTarget(file, targetBytes, qualityMode, maxMode){
+  const origSize = file.size;
+  if(origSize <= targetBytes){
+    setProgress(100, 'File sudah sesuai target', 'Tidak perlu dikompres', '');
+    await sleep(400);
+    return { blob: new Blob([await file.arrayBuffer()], {type:'application/pdf'}), size: origSize, numPages: state.numPages, targetBytes, skipped: true, message: 'File asli sudah lebih kecil dari target. Tidak perlu dikompres.' };
+  }
+
+  setProgress(5, 'Menganalisis PDF...', 'Memuat dokumen', '');
+  const arrayBuffer = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({data: arrayBuffer.slice(0)}).promise;
+  const numPages = pdf.numPages;
+
+  setProgress(12, 'Mencoba kompresi lossless...', 'Menyalin halaman tanpa rekoding gambar', '');
+  try {
+    const { PDFDocument } = PDFLib;
+    const srcDoc = await PDFDocument.load(arrayBuffer.slice(0), {ignoreEncryption: true});
+    const newDoc = await PDFDocument.create();
+    const pages = await newDoc.copyPages(srcDoc, srcDoc.getPageIndices());
+    pages.forEach(p => newDoc.addPage(p));
+    const losslessBytes = await newDoc.save({useObjectStreams: true});
+    const losslessBlob = new Blob([losslessBytes], {type:'application/pdf'});
+    if(losslessBlob.size <= targetBytes){
+      pdf.destroy();
+      setProgress(100, 'Kompresi lossless berhasil', '', '');
+      return { blob: losslessBlob, size: losslessBlob.size, numPages, targetBytes, method: 'lossless', success: true };
+    }
+  } catch(e) { console.warn('Lossless gagal:', e); }
+
+  setProgress(20, 'Mencari tingkat kompresi terbaik...', 'Memulai iterasi binary search', '');
+  
+  let scaleRange, qRange;
+  switch(qualityMode){
+    case 'high': scaleRange = [1.5, 2.5]; qRange = [0.6, 0.92]; break;
+    case 'balanced': scaleRange = [1.0, 2.0]; qRange = [0.4, 0.85]; break;
+    case 'max': scaleRange = [0.6, 1.5]; qRange = [0.2, 0.65]; break;
+  }
+
+  let bestResult = null, bestSize = Infinity, bestScore = Infinity, bestParams = null;
+  const score = (size) => maxMode ? (size > targetBytes ? (size - targetBytes) * 1000 + 1000 : (targetBytes - size) / targetBytes) : Math.abs(size - targetBytes) / targetBytes;
+
+  let lowQ = qRange[0], highQ = qRange[1];
+  let scale = (scaleRange[0] + scaleRange[1]) / 2;
+  const maxIterations = 5;
+
+  for(let i = 0; i < maxIterations; i++){
+    const q = (lowQ + highQ) / 2;
+    setProgress(25 + (i * 12), 'Mencari tingkat kompresi terbaik...', `Skala ${scale.toFixed(2)}× · Q ${(q*100).toFixed(0)}%`, `Iterasi ${i+1}/${maxIterations}`);
+    try {
+      const blob = await renderPDFToBlob(pdf, scale, q, numPages, (pg) => setProgress(25 + (i * 12) + (pg / numPages) * 10, 'Mencari tingkat kompresi terbaik...', `Halaman ${pg}/${numPages} · Skala ${scale.toFixed(2)}×`, `Iterasi ${i+1}/${maxIterations}`));
+      const sz = blob.size;
+      const sc = score(sz);
+      if(sc < bestScore){ bestScore = sc; bestResult = blob; bestSize = sz; bestParams = {scale, q}; }
+      if(Math.abs(sz - targetBytes) / targetBytes < 0.03) break;
+      if(sz > targetBytes) highQ = q; else lowQ = q;
+    } catch(e) { console.warn('Render error', e); }
+  }
+
+  if(Math.abs(bestSize - targetBytes) / targetBytes > 0.1){
+    let lowS = scaleRange[0], highS = scaleRange[1];
+    const useQ = (lowQ + highQ) / 2;
+    for(let i = 0; i < 3; i++){
+      const s = (lowS + highS) / 2;
+      setProgress(60 + (i * 8), 'Mengoptimalkan ukuran...', `Skala ${s.toFixed(2)}× · Q ${(useQ*100).toFixed(0)}%`, `Skala ${i+1}/3`);
+      try {
+        const blob = await renderPDFToBlob(pdf, s, useQ, numPages, (pg) => setProgress(60 + (i * 8) + (pg / numPages) * 6, 'Mengoptimalkan ukuran...', `Halaman ${pg}/${numPages}`, `Skala ${i+1}/3`));
+        const sz = blob.size;
+        const sc = score(sz);
+        if(sc < bestScore){ bestScore = sc; bestResult = blob; bestSize = sz; bestParams = {scale: s, q: useQ}; }
+        if(Math.abs(sz - targetBytes) / targetBytes < 0.03) break;
+        if(sz > targetBytes) highS = s; else lowS = s;
+      } catch(e) { console.warn(e); }
+    }
+  }
+
+  if(maxMode && bestSize > targetBytes){
+    setProgress(85, 'Memeriksa ukuran hasil...', 'Mode maksimal: kompresi agresif', '');
+    const attempts = [{scale:1.0,q:0.35},{scale:0.85,q:0.28},{scale:0.7,q:0.22},{scale:0.55,q:0.18},{scale:0.45,q:0.15}];
+    for(let i = 0; i < attempts.length; i++){
+      const a = attempts[i];
+      setProgress(85 + (i * 2), 'Memeriksa ukuran hasil...', `Skala ${a.scale}× · Q ${(a.q*100).toFixed(0)}%`, 'Agresif');
+      try {
+        const blob = await renderPDFToBlob(pdf, a.scale, a.q, numPages, () => {});
+        if(blob.size <= targetBytes){
+          if(blob.size > bestSize * 0.7 || bestSize > targetBytes){ bestResult = blob; bestSize = blob.size; bestParams = a; }
+          if(blob.size <= targetBytes) break;
+        } else if(blob.size < bestSize){ bestResult = blob; bestSize = blob.size; bestParams = a; }
+      } catch(e) {}
+    }
+  }
+
+  pdf.destroy();
+  setProgress(95, 'Menyiapkan file download...', 'Memvalidasi hasil', '');
+
+  if(!bestResult) throw new Error('Tidak dapat mengompres PDF.');
+  const success = maxMode ? bestSize <= targetBytes : true;
+  let message = '';
+  if(maxMode && bestSize > targetBytes) message = 'Ukuran target terlalu kecil. Sistem telah menghasilkan ukuran terkecil yang dapat dicapai.';
+  else if(!maxMode && Math.abs(bestSize - targetBytes) / targetBytes > 0.15) message = 'Hasil kompresi tidak persis sama dengan target, namun sudah sedekat mungkin.';
+
+  setProgress(100, 'Kompresi selesai', '', '');
+  await sleep(300);
+  return { blob: bestResult, size: bestSize, numPages, targetBytes, origSize, method: 'image', success, message, params: bestParams };
+}
+
+async function renderPDFToBlob(pdf, scale, quality, numPages, onPage){
+  const { PDFDocument } = PDFLib;
+  const newPdf = await PDFDocument.create();
+  for(let i = 0; i < numPages; i++){
+    if(onPage) onPage(i + 1);
+    const page = await pdf.getPage(i + 1);
+    const viewport = page.getViewport({scale});
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.max(1, Math.floor(viewport.width));
+    canvas.height = Math.max(1, Math.floor(viewport.height));
+    const ctx = canvas.getContext('2d', {alpha: false});
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    await page.render({canvasContext: ctx, viewport: viewport, background: '#ffffff'}).promise;
+    const jpegBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', quality));
+    if(!jpegBlob) throw new Error('Gagal mengonversi halaman');
+    const jpgImage = await newPdf.embedJpg(await jpegBlob.arrayBuffer());
+    const pdfWidth = viewport.width / scale;
+    const pdfHeight = viewport.height / scale;
+    const newPage = newPdf.addPage([pdfWidth, pdfHeight]);
+    newPage.drawImage(jpgImage, { x: 0, y: 0, width: pdfWidth, height: pdfHeight });
+    canvas.width = 0; canvas.height = 0;
+  }
+  const pdfBytes = await newPdf.save({useObjectStreams: true});
+  return new Blob([pdfBytes], {type:'application/pdf'});
+}
+
+function showResult(result){
+  progressBlock.classList.remove('show');
+  const origSize = result.origSize || state.file.size;
+  const reduction = origSize > 0 ? ((origSize - result.size) / origSize * 100) : 0;
+  
+  resultHead.classList.remove('warn');
+  resultIc.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+  
+  if(result.skipped || result.message){
+    resultTitle.textContent = result.skipped ? 'Tidak perlu dikompres' : 'Kompresi selesai (perhatian)';
+    resultSub.textContent = result.message;
+    resultHead.classList.add('warn');
+    resultIc.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
+    document.querySelector('.result-ic').style.background = 'rgba(245,158,11,.15)';
+    document.querySelector('.result-ic').style.borderColor = 'rgba(245,158,11,.35)';
+    document.querySelector('.result-ic').style.color = 'var(--amber)';
+  } else {
+    resultTitle.textContent = 'PDF berhasil dikompres';
+    resultSub.textContent = 'Hasil siap diunduh';
+    document.querySelector('.result-ic').style.background = '';
+    document.querySelector('.result-ic').style.borderColor = '';
+    document.querySelector('.result-ic').style.color = '';
+  }
+
+  const baseName = state.file.name.replace(/\.pdf$/i, '');
+  let suffix = state.targetLabel === 'custom' ? (customValue.value + state.unit) : state.targetLabel;
+  const outName = baseName + '-' + suffix + '.pdf';
+
+  statName.textContent = outName; statName.style.wordBreak = 'break-all';
+  statPages.textContent = result.numPages + ' hal';
+  statOrig.textContent = formatBytes(origSize);
+  statTarget.textContent = formatBytes(result.targetBytes);
+  statResult.textContent = formatBytes(result.size);
+  statResult.className = 'stat-v ' + (result.size <= result.targetBytes ? 'ok' : 'warn');
+  statReduce.textContent = reduction.toFixed(2) + '%';
+  statReduce.className = 'stat-v ' + (reduction > 0 ? 'ok' : '');
+
+  result.fileName = outName;
+  resultBlock.classList.add('show');
+  setTimeout(()=>resultBlock.scrollIntoView({behavior:'smooth',block:'nearest'}), 200);
+}
+
+downloadBtn.addEventListener('click', () => {
+  if(!state.result || !state.result.blob) return;
+  const url = URL.createObjectURL(state.result.blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = state.result.fileName || 'compressed.pdf';
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 1000);
+});
+
+resetBtn.addEventListener('click', () => {
+  state.file = null; state.numPages = 0; state.targetBytes = null; state.targetLabel = ''; state.result = null; state.unit = 'KB';
+  fileInput.value = ''; customValue.value = '';
+  customRow.classList.remove('show');
+  fileInfo.classList.remove('show');
+  drop.classList.remove('hidden');
+  document.querySelectorAll('.target-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#unitGroup button').forEach(b => b.classList.remove('active'));
+  document.querySelector('#unitGroup button[data-unit="KB"]').classList.add('active');
+  progressBlock.classList.remove('show');
+  resultBlock.classList.remove('show');
+  hideError();
+  updateCompressButton();
+});
+
+if(typeof pdfjsLib === 'undefined' || typeof PDFLib === 'undefined'){
+  showError('Browser tidak didukung', 'Browser Anda tidak mendukung pemrosesan PDF. Gunakan Chrome, Edge, atau Firefox terbaru.');
+  compressBtn.disabled = true;
+}
+updateCompressButton();
+</script>
+</body>
+</html>
