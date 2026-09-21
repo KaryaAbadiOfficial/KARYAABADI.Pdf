@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KARYA ABDI PDF — Kompres PDF Sesuai Ukuran</title>
+<title>KARYA ABDI PDF — Kompres PDF & Gambar Sesuai Ukuran</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -238,7 +238,7 @@ header{padding:36px 0 8px;text-align:center}
 .guide-ic svg{width:18px;height:18px}
 .guide-title{font-family:'Archivo';font-weight:700;font-size:15px}
 .guide-limit{font-family:'JetBrains Mono';font-weight:700;color:var(--red);font-size:13px;margin-left:auto;background:rgba(230,57,70,.08);padding:3px 8px;border-radius:6px}
-.guide-desc{font-size:13px;color:var(--gray);line-height:1.55;margin-bottom:12px}
+.guide-desc{font-size:13px;color:var(--gray);line-height:1.55;margin-bottom:12px;text-align:justify;text-align-last:center;hyphens:auto;-webkit-hyphens:auto;word-break:keep-all}
 .guide-apply{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--white);background:var(--card-2);border:1px solid var(--border-2);padding:7px 12px;border-radius:7px;cursor:pointer;transition:all .15s}
 .guide-apply:hover{background:var(--red);border-color:var(--red);color:#fff}
 
@@ -280,7 +280,7 @@ header{padding:36px 0 8px;text-align:center}
 .footer-brand .f-text .b{font-family:'Archivo';font-weight:800;font-size:18px;color:var(--white)}
 .footer-brand .f-text .b span{color:var(--red)}
 .footer-brand .f-text .s{font-size:10.5px;color:var(--gray);letter-spacing:.18em;text-transform:uppercase;margin-top:2px;font-weight:600}
-.footer-brand p{font-size:13.5px;color:var(--gray);line-height:1.6;max-width:300px}
+.footer-brand p{font-size:13.5px;color:var(--gray);line-height:1.6;max-width:300px;text-align:justify;text-align-last:center;hyphens:auto;-webkit-hyphens:auto;word-break:keep-all;margin-left:auto;margin-right:auto}
 .footer-col h4{font-family:'Archivo';font-weight:700;font-size:14px;color:var(--white);margin-bottom:16px;letter-spacing:-.01em}
 .footer-col ul{list-style:none}
 .footer-col ul li{margin-bottom:10px}
@@ -293,7 +293,7 @@ header{padding:36px 0 8px;text-align:center}
 .footer-contact p a:hover{color:var(--red)}
 .footer-bottom{border-top:1px solid var(--border);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
 .footer-bottom p{font-size:13px;color:var(--gray-dim)}
-.footer-bottom p span{color:var(--white);font-weight:600}
+.footer-bottom p span{color:var(--white);font-weight:400} 
 .footer-bottom .fb-links{display:flex;gap:16px}
 .footer-bottom .fb-links a{font-size:13px;color:var(--gray-dim);text-decoration:none;transition:color .15s;cursor:pointer}
 .footer-bottom .fb-links a:hover{color:var(--red)}
@@ -309,14 +309,41 @@ header{padding:36px 0 8px;text-align:center}
 }
 @media (max-width:640px){
   .wrap{padding:0 14px}
-  .navbar{flex-wrap:wrap;padding:10px 14px;gap:8px}
-  .nav-links{display:flex;flex-wrap:wrap;justify-content:center;width:100%;margin-top:8px;gap:4px}
-  .nav-links a, .nav-links button{padding:6px 8px;font-size:12px}
+  
+  /* Navbar Mobile: Logo kiri, Dark Mode kanan, sejajar atas */
+  .navbar {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 12px 14px;
+    gap: 8px;
+  }
+  .nav-logo {
+    order: 1;
+    margin-right: auto;
+  }
+  .nav-actions {
+    order: 2;
+  }
+  .nav-links {
+    order: 3;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    margin-top: 8px;
+    gap: 4px;
+  }
+  .nav-links a, .nav-links button {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+
   .hero{padding:24px 0 12px}
   .card{padding:20px;border-radius:16px}
   .target-grid{grid-template-columns:repeat(2,1fr)}
   .quality-grid{grid-template-columns:1fr;gap:8px}
-  .q-btn{padding:12px 14px}
+  .q-btn{padding:12px 14px; text-align:center; align-items:center; justify-content:center;}
+  .q-btn .qd{text-align:center;}
   .result-stats{grid-template-columns:1fr;gap:10px}
   .guide-grid{grid-template-columns:1fr}
   .btn-dl{width:100%;flex:none}
@@ -330,11 +357,93 @@ header{padding:36px 0 8px;text-align:center}
   .modal-title{font-size:18px;padding:0 20px}
   .legal-box .info-box {padding: 25px;}
   .legal-box .info-box p {text-align-last:center;}
-  .abbrev-flex{grid-template-columns: repeat(5, 1fr);gap: 4px;}
-  .abbrev-item{padding:8px 2px;}
-  .abbrev-item .abbr-short{font-size:11px;}
-  .abbrev-item .abbr-full{font-size:8.5px;line-height:1.2;}
-  .target-custom{flex-direction:column;text-align:center;gap:4px}
+  
+  /* Preset row jadi 4 baris vertikal di tengah */
+  .preset-row {
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+  }
+  .preset-chip {
+    width: 100%;
+    max-width: 280px;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  /* Abbreviation jadi 5 baris vertikal, rata tengah */
+  .abbrev-section {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+  }
+  .abbrev-flex {
+    grid-template-columns: 1fr; /* 1 kolom = 5 baris ke bawah */
+    gap: 10px;
+    width: 100%;
+    max-width: 280px;
+  }
+  .abbrev-item {
+    flex-direction: column; /* CPNS di atas, kepanjangan di bawah */
+    align-items: center;
+    text-align: center;
+    background: transparent;
+    border: none;
+    padding: 4px 0;
+  }
+  .abbrev-item .abbr-short {
+    margin-bottom: 4px;
+  }
+  
+  /* Guide card head di mobile: Judul atas, Limit bawah */
+  .guide-head {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .guide-limit {
+    margin-left: 0;
+  }
+  
+  /* Target custom di mobile jadi vertikal rapi */
+  .target-custom {
+    flex-direction: column;
+    text-align: center;
+    gap: 4px;
+  }
+
+  /* Semua tampilan rata tengah, ikon atas, judul tengah, keterangan bawah */
+  .step-head {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+  }
+  .step-num { margin-bottom: 4px; }
+  
+  .guide-card { text-align: center; }
+  .guide-ic { margin: 0 auto 4px auto; }
+  .guide-apply { align-self: center; }
+  
+  .file-info { text-align: center; }
+  .file-row { flex-direction: column; align-items: center; gap: 12px; }
+  .file-ic { margin: 0 auto; }
+  .file-meta { text-align: center; width: 100%; }
+  .file-name { text-align: center; }
+  .file-stats { justify-content: center; }
+  .btn-text { width: 100%; text-align: center; }
+  
+  .result-stats { text-align: center; }
+  .stat { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 4px; }
+  .stat-l { text-align: center; }
+  .stat-v { text-align: center; }
+  
+  .info-box { align-items: center; text-align: center; }
+  .info-box h3 { text-align: center; justify-content: center; }
+  .legal-box .info-box h3 { text-align: center; justify-content: center; }
+  .legal-box .info-box p { text-align: center; }
 }
 .hidden{display:none !important}
 </style>
@@ -385,15 +494,15 @@ header{padding:36px 0 8px;text-align:center}
       <div class="step">
         <div class="step-head">
           <div class="step-num">1</div>
-          <div class="step-title">Upload File PDF</div>
-          <div class="step-hint">Maks 100 MB · Hanya PDF</div>
+          <div class="step-title">Upload File PDF / Gambar</div>
+          <div class="step-hint">Maks 100 MB · PDF, JPG, PNG</div>
         </div>
-        <div class="drop" id="drop" tabindex="0" role="button" aria-label="Pilih file PDF">
-          <input type="file" id="fileInput" accept="application/pdf,.pdf" hidden>
+        <div class="drop" id="drop" tabindex="0" role="button" aria-label="Pilih file PDF atau Gambar">
+          <input type="file" id="fileInput" accept="application/pdf,.pdf,image/jpeg,.jpg,image/png,.png" hidden>
           <div class="drop-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
           </div>
-          <div class="drop-title">Pilih File PDF</div>
+          <div class="drop-title">Pilih File PDF atau Gambar</div>
           <div class="drop-sub">atau seret dan lepas file di sini</div>
           <button type="button" class="drop-btn" onclick="document.getElementById('fileInput').click(); event.stopPropagation();">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
@@ -648,8 +757,8 @@ header{padding:36px 0 8px;text-align:center}
     </div>
     <div class="info-grid">
       <article class="info-box">
-        <h3>1. Upload File PDF</h3>
-        <p class="text-justify-center">Klik tombol "Jelajahi File" atau seret dan lepas file PDF Anda langsung ke area upload. Pastikan file berformat PDF valid dan tidak melebihi batas maksimal 100 MB untuk memastikan proses kompresi berjalan lancar di browser Anda tanpa mengalami gangguan memori atau crash pada perangkat.</p>
+        <h3>1. Upload File PDF / Gambar</h3>
+        <p class="text-justify-center">Klik tombol "Jelajahi File" atau seret dan lepas file PDF atau Gambar (JPG, PNG) Anda langsung ke area upload. Jika yang diunggah adalah gambar, sistem akan otomatis mengonversinya menjadi PDF terlebih dahulu sebelum dikompres. Pastikan ukuran file tidak melebihi batas maksimal 100 MB.</p>
       </article>
       <article class="info-box">
         <h3>2. Pilih Target Ukuran</h3>
@@ -723,7 +832,7 @@ header{padding:36px 0 8px;text-align:center}
     <div class="legal-box">
       <article class="info-box">
         <h3>1. Pemrosesan Data Secara Lokal (Client-Side)</h3>
-        <p>Karya Abadi PDF berkomitmen penuh untuk melindungi privasi Anda. Semua file PDF yang Anda unggah ke situs ini diproses sepenuhnya secara lokal di dalam browser Anda (client-side). Tidak ada satu pun file PDF, metadata dokumen, atau data pribadi yang dikirimkan ke server eksternal atau disimpan di database kami. Arsitektur lokal ini menjamin bahwa dokumen administrasi sensitif Anda tidak akan pernah meninggalkan perangkat Anda, memberikan keamanan data hingga 100%.</p>
+        <p>Karya Abadi PDF berkomitmen penuh untuk melindungi privasi Anda. Semua file PDF atau Gambar yang Anda unggah ke situs ini diproses sepenuhnya secara lokal di dalam browser Anda (client-side). Tidak ada satu pun file, metadata dokumen, atau data pribadi yang dikirimkan ke server eksternal atau disimpan di database kami. Arsitektur lokal ini menjamin bahwa dokumen administrasi sensitif Anda tidak akan pernah meninggalkan perangkat Anda, memberikan keamanan data hingga 100%.</p>
         
         <h3>2. Penggunaan Local Storage</h3>
         <p>Satunya data yang disimpan di perangkat Anda adalah preferensi tema tampilan (mode gelap atau mode terang) menggunakan fitur local storage browser. Data ini bersifat teknis dan tidak mengandung informasi pribadi yang dapat mengidentifikasi Anda. Anda dapat menghapus data ini kapan saja melalui pengaturan browser Anda tanpa memengaruhi fungsi kompresi PDF.</p>
@@ -749,10 +858,10 @@ header{padding:36px 0 8px;text-align:center}
     <div class="legal-box">
       <article class="info-box">
         <h3>1. Sifat Layanan</h3>
-        <p>Layanan kompresi PDF ini disediakan secara gratis untuk membantu masyarakat Indonesia dalam mengelola ukuran dokumen administrasi. Alat ini dirancang untuk keperluan pribadi maupun profesional tanpa memerlukan registrasi akun atau pembayaran langganan. Kami berhak mengubah atau menghentikan layanan sewaktu-waktu tanpa pemberitahuan terlebih dahulu.</p>
+        <p>Layanan kompresi PDF dan konversi gambar ke PDF ini disediakan secara gratis untuk membantu masyarakat Indonesia dalam mengelola ukuran dokumen administrasi. Alat ini dirancang untuk keperluan pribadi maupun profesional tanpa memerlukan registrasi akun atau pembayaran langganan. Kami berhak mengubah atau menghentikan layanan sewaktu-waktu tanpa pemberitahuan terlebih dahulu.</p>
         
         <h3>2. Batasan Teknis Kompresi</h3>
-        <p>Algoritma kompresi menggunakan pendekatan iteratif binary search untuk mencapai target ukuran yang diinginkan. Namun, kami tidak menjamin bahwa target ukuran dapat selalu tercapai 100% secara matematis. Keterbatasan struktur file PDF asli, resolusi gambar, dan keterbatasan teknis browser dapat memengaruhi hasil akhir. Pengguna bertanggung jawab penuh atas keterbacaan dan validitas dokumen hasil kompresi.</p>
+        <p>Algoritma kompresi menggunakan pendekatan iteratif binary search untuk mencapai target ukuran yang diinginkan. Namun, kami tidak menjamin bahwa target ukuran dapat selalu tercapai 100% secara matematis. Keterbatasan struktur file asli, resolusi gambar, dan keterbatasan teknis browser dapat memengaruhi hasil akhir. Pengguna bertanggung jawab penuh atas keterbacaan dan validitas dokumen hasil kompresi.</p>
         
         <h3>3. Tanggung Jawab Pengguna</h3>
         <p>Pengguna bertanggung jawab memastikan bahwa dokumen yang dikompres menggunakan tool ini tidak melanggar hukum, hak cipta, atau privasi pihak lain. Penggunaan layanan ini untuk tujuan ilegal, penipuan, atau manipulasi dokumen administrasi negara dilarang keras. Kami tidak bertanggung jawab atas konsekuensi hukum yang timbul akibat penyalahgunaan alat ini.</p>
@@ -813,7 +922,7 @@ header{padding:36px 0 8px;text-align:center}
             <div class="s">Web Tool Kompres PDF</div>
           </div>
         </div>
-        <p>Web tool gratis untuk mengompres file PDF sesuai target ukuran yang Anda inginkan. 100% diproses di browser, aman, tanpa upload server.</p>
+        <p>Web tool gratis untuk mengompres file PDF dan mengubah gambar menjadi PDF sesuai target ukuran spesifik yang Anda inginkan dengan presisi tinggi. Seluruh proses kompresi 100% diproses langsung di perangkat Anda melalui browser, sangat aman, tanpa upload ke server mana pun, menjaga privasi dokumen administrasi.</p>
       </div>
       
       <div class="footer-col">
@@ -993,29 +1102,86 @@ fileInput.addEventListener('change', (e) => { const f = e.target.files[0]; if(f)
 
 async function handleFile(file){
   hideError();
-  if(file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')){ showError('Format tidak didukung', 'File harus berformat PDF.'); return; }
+  
+  // Validasi tipe file
+  const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
+  const isImage = file.type.startsWith('image/') || /\.(jpg|jpeg|png)$/i.test(file.name);
+  
+  if (!isPdf && !isImage) {
+    showError('Format tidak didukung', 'File harus berformat PDF, JPG, JPEG, atau PNG.');
+    return;
+  }
+  
   if(file.size > 100 * 1024 * 1024){ showError('File terlalu besar', 'Ukuran file melebihi batas 100 MB.'); return; }
-  if(file.size === 0){ showError('File kosong', 'File PDF tidak memiliki konten.'); return; }
+  if(file.size === 0){ showError('File kosong', 'File tidak memiliki konten.'); return; }
 
-  state.file = file;
-  fileName.textContent = file.name;
-  fileSize.textContent = formatBytes(file.size);
-
+  progressBlock.classList.add('show');
+  
   try {
-    progressBlock.classList.add('show');
-    setProgress(10, 'Menganalisis PDF...', 'Membaca struktur dokumen', '');
-    const buf = await file.arrayBuffer();
-    const pdf = await pdfjsLib.getDocument({data: buf.slice(0)}).promise;
-    state.numPages = pdf.numPages;
-    pageCount.textContent = state.numPages + ' halaman';
-    pdf.destroy();
-    setProgress(100, 'PDF siap dikompres', '', '');
+    if (isImage) {
+      // Konversi Gambar ke PDF terlebih dahulu
+      setProgress(15, 'Mengubah gambar ke PDF...', 'Memproses gambar', '');
+      const arrayBuffer = await file.arrayBuffer();
+      const { PDFDocument } = PDFLib;
+      const pdfDoc = await PDFDocument.create();
+      
+      let img;
+      if (file.type === 'image/png' || file.name.toLowerCase().endsWith('.png')) {
+        img = await pdfDoc.embedPng(arrayBuffer);
+      } else {
+        img = await pdfDoc.embedJpg(arrayBuffer);
+      }
+      
+      // Skala gambar jika terlalu besar untuk mencegah crash di browser
+      let imgWidth = img.width;
+      let imgHeight = img.height;
+      const maxDim = 2000;
+      if (imgWidth > maxDim || imgHeight > maxDim) {
+        const ratio = Math.min(maxDim / imgWidth, maxDim / imgHeight);
+        imgWidth = Math.floor(imgWidth * ratio);
+        imgHeight = Math.floor(imgHeight * ratio);
+      }
+      
+      const page = pdfDoc.addPage([imgWidth, imgHeight]);
+      page.drawImage(img, { x: 0, y: 0, width: imgWidth, height: imgHeight });
+      
+      const pdfBytes = await pdfDoc.save();
+      const pdfBlob = new Blob([pdfBytes], { type: 'application/pdf' });
+      
+      // Ganti file asli dengan PDF hasil konversi
+      const pdfFileName = file.name.replace(/\.(jpe?g|png)$/i, '') + '.pdf';
+      state.file = new File([pdfBlob], pdfFileName, { type: 'application/pdf' });
+      state.numPages = 1;
+      
+      fileName.textContent = state.file.name + ' (dari gambar)';
+      fileSize.textContent = formatBytes(state.file.size);
+      pageCount.textContent = state.numPages + ' halaman';
+      
+      setProgress(100, 'Gambar siap dikompres', '', '');
+    } else {
+      // Proses PDF biasa
+      setProgress(10, 'Menganalisis PDF...', 'Membaca struktur dokumen', '');
+      state.file = file;
+      fileName.textContent = file.name;
+      fileSize.textContent = formatBytes(file.size);
+
+      const buf = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({data: buf.slice(0)}).promise;
+      state.numPages = pdf.numPages;
+      pageCount.textContent = state.numPages + ' halaman';
+      pdf.destroy();
+      
+      setProgress(100, 'PDF siap dikompres', '', '');
+    }
+    
     setTimeout(()=>progressBlock.classList.remove('show'), 600);
   } catch(e) {
+    console.error(e);
     progressBlock.classList.remove('show');
-    showError('PDF tidak dapat diproses', 'Pastikan file tidak rusak dan merupakan PDF yang valid.');
+    showError('Gagal memproses file', 'Terjadi kesalahan saat membaca file. Pastikan file tidak rusak.');
     state.file = null; return;
   }
+  
   drop.classList.add('hidden');
   fileInfo.classList.add('show');
   updateCompressButton();
