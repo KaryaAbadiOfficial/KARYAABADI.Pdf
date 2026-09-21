@@ -110,7 +110,6 @@ header{padding:36px 0 8px;text-align:center}
 .btn-text{background:none;border:none;color:var(--gray);font-size:13px;cursor:pointer;padding:6px 10px;border-radius:6px;transition:all .15s;font-family:inherit;font-weight:500}
 .btn-text:hover{color:var(--red);background:rgba(230,57,70,.08)}
 
-/* TATA LETAK UKURAN BARU */
 .target-custom{
   width:100%;
   padding:16px;
@@ -138,7 +137,6 @@ header{padding:36px 0 8px;text-align:center}
 .target-btn.active .lbl{color:var(--red)}
 .target-btn.active::after{content:'';position:absolute;top:6px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--red);box-shadow:0 0 8px var(--red)}
 
-/* OVERRIDE KHUSUS UNTUK TOMBOL UKURAN BEBAS */
 .target-btn.target-custom .lbl{font-size:16px;font-weight:900;color:#ffffff;letter-spacing:.02em;text-transform:uppercase}
 .target-btn.target-custom .custom-hint{font-size:11.5px;font-weight:700;color:#ffffff;text-transform:uppercase;letter-spacing:.05em}
 
@@ -244,7 +242,6 @@ header{padding:36px 0 8px;text-align:center}
 .guide-apply{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--white);background:var(--card-2);border:1px solid var(--border-2);padding:7px 12px;border-radius:7px;cursor:pointer;transition:all .15s}
 .guide-apply:hover{background:var(--red);border-color:var(--red);color:#fff}
 
-/* INFO PAGES (Fitur, Panduan, Kontak, Artikel, Legal) */
 .info-wrap{max-width:1140px;margin:0 auto;padding:40px 20px}
 .info-header{text-align:center;margin-bottom:40px}
 .info-header h2{font-family:'Archivo';font-weight:800;font-size:32px;letter-spacing:-.02em;margin-bottom:8px}
@@ -265,7 +262,6 @@ header{padding:36px 0 8px;text-align:center}
 .legal-box .info-box h3:first-child {margin-top:0}
 .legal-box .info-box p {text-align:justify;text-align-last:left;font-size:14px;line-height:1.7}
 
-/* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px;animation:fadeIn .3s ease}
 .modal-overlay.active{display:flex}
 .modal-box{background:var(--bg-2);border:1px solid var(--border);border-radius:20px;width:100%;max-width:700px;max-height:85vh;overflow-y:auto;padding:30px;position:relative;box-shadow:0 30px 60px -30px rgba(0,0,0,.8)}
@@ -277,7 +273,6 @@ header{padding:36px 0 8px;text-align:center}
 .modal-title{font-family:'Archivo';font-weight:800;font-size:22px;color:var(--white);margin-bottom:20px;text-align:center;letter-spacing:-.01em;line-height:1.3;padding:0 30px}
 .modal-content p{font-size:14px;line-height:1.7;color:var(--gray);margin-bottom:14px;text-align:justify;text-align-last:center;hyphens:auto;-webkit-hyphens:auto;word-break:keep-all}
 
-/* FOOTER */
 .pro-footer{position:relative;z-index:2;margin-top:80px;border-top:1px solid var(--border);background:var(--bg-2)}
 .footer-container{max-width:1140px;margin:0 auto;padding:50px 20px 20px}
 .footer-grid{display:grid;grid-template-columns:2.5fr 1fr 1.5fr;gap:40px;margin-bottom:40px}
@@ -339,8 +334,6 @@ header{padding:36px 0 8px;text-align:center}
   .abbrev-item{padding:8px 2px;}
   .abbrev-item .abbr-short{font-size:11px;}
   .abbrev-item .abbr-full{font-size:8.5px;line-height:1.2;}
-  
-  /* Ukuran Bebas rapi di Mobile */
   .target-custom{flex-direction:column;text-align:center;gap:4px}
 }
 .hidden{display:none !important}
@@ -785,7 +778,7 @@ header{padding:36px 0 8px;text-align:center}
         <p>Karya Abadi PDF adalah alat independen yang dikembangkan untuk memudahkan masyarakat dalam mengelola ukuran file PDF. Nama-nama instansi seperti CPNS, BUMN, BKN, PPDB, LPSE, dan LPDP yang disebutkan dalam antarmuka web hanyalah referensi batasan ukuran umum yang diterapkan oleh sistem tersebut. Kami tidak memiliki afiliasi resmi, kemitraan, atau hubungan kerja sama dengan instansi pemerintah mana pun.</p>
         
         <h3>2. Verifikasi Mandiri</h3>
-        <p>Batasan ukuran file PDF pada sistem administrasi pemerintah dapat berubah sewaktu-waktu. Oleh karena itu, pengguna diharapkan selalu memverifikasi ulang batasan ukuran file yang berlaku pada portal resmi masing-maining instansi sebelum melakukan unggah dokumen. Kami tidak bertanggung jawab atas penolakan dokumen oleh sistem pihak ketiga jika terdapat perubahan kebijakan teknis di luar kendali web tool ini.</p>
+        <p>Batasan ukuran file PDF pada sistem administrasi pemerintah dapat berubah sewaktu-waktu. Oleh karena itu, pengguna diharapkan selalu memverifikasi ulang batasan ukuran file yang berlaku pada portal resmi masing-masing instansi sebelum melakukan unggah dokumen. Kami tidak bertanggung jawab atas penolakan dokumen oleh sistem pihak ketiga jika terdapat perubahan kebijakan teknis di luar kendali web tool ini.</p>
         
         <h3>3. Integritas Dokumen</h3>
         <p>Meskipun algoritma kompresi kami dirancang untuk mempertahankan struktur dan keterbacaan teks pada file PDF, proses kompresi gambar (terutama pada dokumen hasil scan dengan DPI tinggi) dapat menyebabkan penurunan kualitas visual. Pengguna bertanggung jawab untuk memeriksa kembali kelayakan dokumen hasil kompresi sebelum diserahkan untuk keperluan administrasi resmi.</p>
@@ -835,7 +828,6 @@ header{padding:36px 0 8px;text-align:center}
       <div class="footer-col footer-contact">
         <h4>Hubungi Kami</h4>
         <p><i class="fas fa-envelope"></i><a href="mailto:karyaabadi24434@gmail.com">karyaabadi24434@gmail.com</a></p>
-        <p><i class="fas fa-shield-alt"></i>100% Aman & Terenkripsi</p>
       </div>
     </div>
     
@@ -874,7 +866,7 @@ function openModal(index) {
     contentHtml += `<p>${p1} ${p2}</p>`;
   }
   
-  titleEl.textContent = title; // Hanya judul tanpa nomor
+  titleEl.textContent = title;
   contentEl.innerHTML = contentHtml;
   modal.classList.add('active');
   document.body.style.overflow = 'hidden';
@@ -888,49 +880,49 @@ function closeModal(e) {
 
 // GENERATE 30 ARTIKEL BOXES
 const articleTitles = [
-    "Panduan Kompres PDF untuk Lamaran CPNS dan BUMN 200 KB",
-    "Strategi Mengompres Ijazah dan Transkrip Hingga 500 KB",
-    "Tips Menyesuaikan Ukuran Dokumen LPSE Lelang Maksimal 1 MB",
-    "Cara Reduksi File PDF Beasiswa LPDP Sesuai Batas 2 MB",
-    "Kompresi PDF untuk Pendaftaran PPDB Online yang Aman",
-    "Teknik Kompresi Gambar Scan pada Dokumen Administrasi",
-    "Pentingnya Privasi Data dalam Kompresor PDF Client-Side",
-    "Algoritma Binary Search pada Karya Abadi PDF Tool",
-    "Mengoptimalkan Kualitas JPEG dan DPI File PDF",
-    "Perbedaan Kompresi Lossless dan Image-Based PDF",
-    "Cara Kerja Web Tool Kompresor PDF di Browser Modern",
-    "Solusi Cepat Mengatasi Upload PDF Gagal Karena Ukuran Besar",
-    "Standar Batasan Ukuran File pada Sistem Administrasi Pemerintah",
-    "Keamanan Dokumen Digital: Mengapa Kompresi Lokal Itu Vital",
-    "Memahami Satuan KB dan MB dalam Target Kompresi PDF",
-    "Fitur Jangan Melebihi Target: Jaminan Kepatuhan Batas Upload",
-    "Optimasi Teks dan Gambar pada File PDF Tanpa Merusak Struktur",
-    "Karya Abadi PDF: Web Tool Gratis untuk Kebutuhan Administrasi",
-    "Mempertahankan Keterbacaan Teks Setelah Proses Kompresi PDF",
-    "Pengaruh Resolusi Gambar terhadap Total Ukuran File PDF",
-    "Cara Reduksi Ukuran E-Faktur dan Lampiran Pajak DJP",
-    "Kompresi Dokumen e-Court dan SIPP Mahkamah Agung",
-    "Mengatasi File PDF Terlalu Besar untuk Lampiran Email",
-    "Teknik Presisi Kompresi PDF Hingga Akurasi Byte",
-    "Mengapa Dokumen Scan Membutuhkan Kompresi Lebih Agresif",
-    "Peran Kompresor PDF dalam Efisiensi Penyimpanan Cloud",
-    "Dampak Kompresi terhadap Metadata dan Struktur Internal PDF",
-    "Mode Kualitas Tinggi vs Kompres Maksimal: Pilih Mana?",
-    "Mengoptimalkan Portofolio Desain Grafis Format PDF",
-    "Masa Depan Otomatisasi Kompresi Dokumen Administrasi"
+    "Panduan Lengkap Dokumen Administrasi di Indonesia: Syarat, Cara Mengurus, dan Dasar Hukumnya",
+    "Persyaratan Membuat Kartu Keluarga (KK): Dokumen, Prosedur, dan Cara Mengurusnya",
+    "Syarat Membuat KTP-el: Dokumen yang Harus Disiapkan dan Cara Mengurusnya",
+    "Syarat Membuat Akta Kelahiran: Dokumen, Prosedur, dan Biaya",
+    "Syarat Membuat Akta Kematian dan Mengurus Dokumen Orang yang Meninggal",
+    "Syarat Pindah Domisili: Dokumen, Prosedur, dan Cara Mengubah Data Kependudukan",
+    "Syarat Mengurus Surat Nikah dan Dokumen Administrasi Pernikahan",
+    "Syarat Mengurus Akta Cerai dan Perubahan Data Kependudukan Setelah Perceraian",
+    "Syarat Mengurus Dokumen Administrasi untuk Anak: Akta Kelahiran, KK, dan Identitas Anak",
+    "Syarat Membuat SKCK: Dokumen, Cara Pengajuan, dan Ketentuannya",
+    "Syarat Membuat atau Memperpanjang SIM: Dokumen dan Tahapan Pengurusan",
+    "Syarat Mengurus STNK dan BPKB: Dokumen untuk Berbagai Keperluan",
+    "Syarat Balik Nama Kendaraan: Dokumen, Prosedur, dan Biaya Resmi",
+    "Syarat Membuat Paspor: Dokumen, Prosedur, dan Ketentuan Terbaru",
+    "Syarat Mengurus Visa dan Dokumen Perjalanan ke Luar Negeri",
+    "Syarat Membuat NPWP dan Mengurus Administrasi Pajak",
+    "Syarat Mengurus Administrasi BPJS Kesehatan: Dokumen dan Prosedur",
+    "Syarat Membuat NIB untuk Usaha: Dokumen, Prosedur, dan Ketentuan Terbaru",
+    "Syarat Membuka Usaha Mikro dan Kecil: Dokumen Administrasi yang Perlu Disiapkan",
+    "Syarat Mendirikan PT: Dokumen, Prosedur, dan Administrasi Badan Usaha",
+    "Syarat Mendirikan CV: Dokumen dan Tahapan Administrasinya",
+    "Syarat Mendirikan Yayasan dan Perkumpulan: Dokumen serta Prosedurnya",
+    "Syarat Mengurus Sertifikat Tanah: Dokumen dan Prosedur Administrasi",
+    "Syarat Balik Nama Sertifikat Tanah: Dokumen, Prosedur, dan Ketentuan",
+    "Syarat Mengurus PBB dan Administrasi Pajak Bumi dan Bangunan",
+    "Syarat Administrasi untuk Melamar Kerja: Dokumen yang Umumnya Diminta",
+    "Syarat Administrasi Masuk Sekolah dan Kuliah: Dokumen yang Perlu Disiapkan",
+    "Syarat Mengurus Surat Keterangan Tidak Mampu dan Administrasi Bantuan Sosial",
+    "Daftar Dokumen Administrasi yang Sering Hilang dan Cara Mengurus Penggantinya",
+    "Checklist Lengkap Dokumen Administrasi Keluarga Indonesia: Apa Saja yang Sebaiknya Disimpan?"
 ];
 
 const fragments = [
-    `Proses kompresi PDF yang akurat sangat krusial untuk memastikan dokumen administrasi memenuhi syarat batas ukuran upload yang ketat. Dengan menggunakan web tool Karya Abadi PDF, pengguna dapat menargetkan ukuran spesifik seperti 200 KB, 500 KB, 1 MB, hingga 2 MB secara presisi.`,
-    `Algoritma iteratif binary search yang diimplementasikan pada Karya Abadi PDF mampu menemukan tingkat kualitas JPEG dan skala DPI terbaik secara otomatis dan efisien. Sistem tidak hanya sekadar melakukan kompresi satu kali, melainkan melakukan pencarian parameter bertahap agar ukuran hasil sedekat mungkin dengan target.`,
-    `Privasi dan keamanan dokumen administrasi adalah prioritas utama yang tidak boleh dikompromikan dalam proses kompresi file PDF. Oleh karena itu, seluruh proses kompresi pada web tool ini dilakukan sepenuhnya secara client-side di dalam browser pengguna.`,
-    `Dokumen hasil scan biasanya memiliki resolusi gambar yang sangat tinggi yang menyebabkan ukuran file PDF membengkak secara tidak proporsional. Melalui optimasi parameter DPI dan tingkat kompresi kualitas gambar JPEG, web tool ini mampu mereduksi ukuran file secara signifikan.`,
-    `Fitur "Jangan melebihi target" pada kompresor Karya Abadi PDF memastikan bahwa file hasil kompresi tidak akan pernah melampaui batas maksimal yang ditentukan oleh instansi pemerintah. Hal ini sangat esensial untuk pendaftaran CPNS, LPSE, maupun PPDB.`,
-    `Penggunaan satuan standar perhitungan 1 MB = 1.000 KB diadopsi secara konsisten pada antarmuka dan perhitungan internal web tool ini agar sesuai dengan ketentuan yang diterapkan oleh mayoritas sistem administrasi modern di Indonesia.`,
-    `Karya Abadi PDF mendukung berbagai mode kualitas kompresi, mulai dari mode Tinggi, Seimbang, hingga Kompres Maksimal. Pengguna dapat memilih prioritas apakah ingin mempertahankan ketajaman teks untuk dokumen resmi, atau memaksimalkan reduksi ukuran untuk file berisi gambar scan.`,
-    `Kepatuhan terhadap batasan ukuran file pada platform administrasi seperti e-Faktur DJP, SIPP, dan e-Court Mahkamah Agung kini dapat dilakukan dengan jauh lebih mudah. Alat kompresi ini bekerja langsung tanpa memerlukan instalasi software tambahan yang berat pada komputer pengguna.`,
-    `Selain mengurangi ukuran file, proses kompresi yang optimal juga membantu mempercepat waktu loading saat dokumen tersebut diakses secara online di masa mendatang. File PDF yang ringan akan mempermudah proses download dan unggah, serta mengurangi beban penyimpanan pada server.`,
-    `Dalam era digitalisasi administrasi, pengelolaan ukuran file PDF yang tepat mencerminkan kesiapan teknis individu dalam menghadapi persyaratan sistem modern. Dokumen yang terstruktur dengan baik dan berukuran ringan menunjukkan profesionalisme serta memudahkan proses asesmen oleh pihak ketiga.`
+    `Persyaratan administrasi kependudukan seperti KTP dan KK wajib disesuaikan dengan domisili saat ini agar tidak ditolak saat pengajuan layanan publik. Sistem administrasi di Indonesia mengharuskan setiap perubahan data dilaporkan maksimal 30 hari sejak peristiwa terjadi untuk menjaga kevalidan database kependudukan.`,
+    `Pengurusan akta kelahiran dan kematian harus dilakukan dalam batas waktu 60 hari sejak peristiwa terjadi untuk menghindari denda retribusi daerah. Dokumen otentik dari rumah sakit atau keterangan saksi sangat krusial sebagai dasar penerbitan akta di Disdukcapil setempat.`,
+    `Proses pembuatan paspor di imigrasi kini mensyaratkan pemohon membawa KTP-el asli dan KK yang datanya sudah sinkron dengan database Dukcapil. Hal ini bertujuan untuk mencegah penyalahgunaan identitas dan memastikan data biometrik pencarian paspor sesuai dengan rekam jejak kependudukan resmi.`,
+    `Untuk mendirikan badan usaha seperti PT atau CV, pelaku usaha wajib mengurus NIB melalui sistem OSS berbasis risiko sesuai ketentuan KBLI terbaru. Proses ini menggantikan izin usaha tradisional dan mempermudah pelaku usaha mikro hingga menengah dalam mengakses legalitas usaha secara digital.`,
+    `Balik nama sertifikat tanah membutuhkan dokumen otentik seperti AJB dan bukti pelunasan pajak Bumi dan Bangunan sebelum diajukan ke BPN. Proses ini bertujuan untuk memastikan peralihan hak milik tercatat secara hukum dan menghindari sengketa properti di masa mendatang.`,
+    `Pelaporan pindah domisili antar daerah wajib menggunakan Surat Keterangan Pindah Datang agar data kependudukan tetap valid dan menghindari masalah hukum. Tanpa dokumen ini, masyarakat akan kesulitan mengurus KTP baru atau mengakses layanan publik di daerah tujuan.`,
+    `Pengajuan SKCK di Polsek setempat mensyaratkan KTP domisili yang sesuai dengan alamat tempat tinggal pemohon saat ini. Polri menggunakan data ini untuk memverifikasi catatan kepolisian dan memastikan tidak ada riwayat pidana yang menghalangi penerbitan surat keterangan tersebut.`,
+    `Administrasi perpajakan seperti NPWP wajib dimiliki oleh warga yang memiliki penghasilan untuk kepatuhan hukum dan transparansi finansial. NPWP juga menjadi syarat dasar untuk membuka rekening bank korporat, mengurus ekspor-impor, serta mengajukan kredit perbankan dengan nilai yang signifikan.`,
+    `Kesalahan umum saat mengurus dokumen administrasi adalah tidak membawa dokumen asli, hanya fotokopi, sehingga verifikasi petugas menjadi terhambat. Banyak instansi pemerintah kini memberlakukan ketentuan wajib menunjukkan dokumen asli untuk mencegah pemalsuan dan memastikan keaslian data yang diajukan.`,
+    `Pemerintah daerah memiliki kewenangan teknis untuk menentukan biaya retribusi penggantian dokumen yang hilang sesuai Peraturan Daerah setempat. Oleh karena itu, biaya penggantian KTP atau KK yang hilang bisa berbeda antara satu kabupaten/kota dengan kabupaten/kota lainnya di Indonesia.`
 ];
 
 function generateArticles() {
