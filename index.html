@@ -129,9 +129,6 @@ header{padding:36px 0 8px;text-align:center}
 }
 .target-custom:hover{border-color:var(--red);background:rgba(230,57,70,.05)}
 .target-custom.active{background:linear-gradient(180deg,rgba(230,57,70,.18),rgba(230,57,70,.06));border-color:var(--red);color:#fff}
-.target-custom .lbl{font-size:16px;font-weight:900;color:#ffffff;letter-spacing:.03em;text-transform:uppercase} /* TEKS SANGAT TEBAL DAN PUTIH */
-.target-custom .custom-hint{font-size:11.5px;color:var(--gray)}
-.target-custom.active .custom-hint{color:rgba(255,255,255,.8)}
 
 .target-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 .target-btn{padding:14px 8px;border-radius:11px;background:var(--card-2);border:1px solid var(--border-2);color:var(--white);font-weight:700;font-size:14px;cursor:pointer;transition:all .2s;font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:3px;position:relative}
@@ -140,6 +137,10 @@ header{padding:36px 0 8px;text-align:center}
 .target-btn.active{background:linear-gradient(180deg,rgba(230,57,70,.18),rgba(230,57,70,.06));border-color:var(--red);color:#fff}
 .target-btn.active .lbl{color:var(--red)}
 .target-btn.active::after{content:'';position:absolute;top:6px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--red);box-shadow:0 0 8px var(--red)}
+
+/* OVERRIDE KHUSUS UNTUK TOMBOL UKURAN BEBAS */
+.target-btn.target-custom .lbl{font-size:16px;font-weight:900;color:#ffffff;letter-spacing:.02em;text-transform:uppercase}
+.target-btn.target-custom .custom-hint{font-size:11.5px;font-weight:700;color:#ffffff;text-transform:uppercase;letter-spacing:.05em}
 
 .preset-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;justify-content:center}
 .preset-chip{padding:6px 12px;background:var(--bg);border:1px solid var(--border-2);border-radius:999px;font-size:11.5px;color:var(--gray);cursor:pointer;transition:all .15s;font-family:inherit;font-weight:500;text-align:center}
@@ -338,6 +339,9 @@ header{padding:36px 0 8px;text-align:center}
   .abbrev-item{padding:8px 2px;}
   .abbrev-item .abbr-short{font-size:11px;}
   .abbrev-item .abbr-full{font-size:8.5px;line-height:1.2;}
+  
+  /* Ukuran Bebas rapi di Mobile */
+  .target-custom{flex-direction:column;text-align:center;gap:4px}
 }
 .hidden{display:none !important}
 </style>
@@ -431,7 +435,7 @@ header{padding:36px 0 8px;text-align:center}
         
         <button type="button" class="target-btn target-custom" data-target="custom" data-label="custom">
           <span class="lbl">UKURAN BEBAS</span>
-          <span class="custom-hint">Ketik ukuran sendiri (KB/MB)</span>
+          <span class="custom-hint">KETIK UKURAN SENDIRI (KB/MB)</span>
         </button>
 
         <div class="target-grid" id="targetGrid">
@@ -781,7 +785,7 @@ header{padding:36px 0 8px;text-align:center}
         <p>Karya Abadi PDF adalah alat independen yang dikembangkan untuk memudahkan masyarakat dalam mengelola ukuran file PDF. Nama-nama instansi seperti CPNS, BUMN, BKN, PPDB, LPSE, dan LPDP yang disebutkan dalam antarmuka web hanyalah referensi batasan ukuran umum yang diterapkan oleh sistem tersebut. Kami tidak memiliki afiliasi resmi, kemitraan, atau hubungan kerja sama dengan instansi pemerintah mana pun.</p>
         
         <h3>2. Verifikasi Mandiri</h3>
-        <p>Batasan ukuran file PDF pada sistem administrasi pemerintah dapat berubah sewaktu-waktu. Oleh karena itu, pengguna diharapkan selalu memverifikasi ulang batasan ukuran file yang berlaku pada portal resmi masing-masing instansi sebelum melakukan unggah dokumen. Kami tidak bertanggung jawab atas penolakan dokumen oleh sistem pihak ketiga jika terdapat perubahan kebijakan teknis di luar kendali web tool ini.</p>
+        <p>Batasan ukuran file PDF pada sistem administrasi pemerintah dapat berubah sewaktu-waktu. Oleh karena itu, pengguna diharapkan selalu memverifikasi ulang batasan ukuran file yang berlaku pada portal resmi masing-maining instansi sebelum melakukan unggah dokumen. Kami tidak bertanggung jawab atas penolakan dokumen oleh sistem pihak ketiga jika terdapat perubahan kebijakan teknis di luar kendali web tool ini.</p>
         
         <h3>3. Integritas Dokumen</h3>
         <p>Meskipun algoritma kompresi kami dirancang untuk mempertahankan struktur dan keterbacaan teks pada file PDF, proses kompresi gambar (terutama pada dokumen hasil scan dengan DPI tinggi) dapat menyebabkan penurunan kualitas visual. Pengguna bertanggung jawab untuk memeriksa kembali kelayakan dokumen hasil kompresi sebelum diserahkan untuk keperluan administrasi resmi.</p>
