@@ -280,7 +280,7 @@ header{padding:36px 0 8px;text-align:center}
 .footer-brand .f-text .b{font-family:'Archivo';font-weight:800;font-size:18px;color:var(--white)}
 .footer-brand .f-text .b span{color:var(--red)}
 .footer-brand .f-text .s{font-size:10.5px;color:var(--gray);letter-spacing:.18em;text-transform:uppercase;margin-top:2px;font-weight:600}
-.footer-brand p{font-size:13.5px;color:var(--gray);line-height:1.6;max-width:300px;text-align:justify;text-align-last:center;hyphens:auto;-webkit-hyphens:auto;word-break:keep-all;margin-left:auto;margin-right:auto}
+.footer-brand p{font-size:13.5px;color:var(--gray);line-height:1.6;max-width:300px;text-align:justify;text-align-last:left;hyphens:auto;-webkit-hyphens:auto;word-break:keep-all;margin-right:auto;}
 .footer-col h4{font-family:'Archivo';font-weight:700;font-size:14px;color:var(--white);margin-bottom:16px;letter-spacing:-.01em}
 .footer-col ul{list-style:none}
 .footer-col ul li{margin-bottom:10px}
@@ -291,12 +291,37 @@ header{padding:36px 0 8px;text-align:center}
 .footer-contact p i{color:var(--red);margin-top:4px;width:16px;text-align:center}
 .footer-contact p a{color:var(--gray);text-decoration:none}
 .footer-contact p a:hover{color:var(--red)}
-.footer-bottom{border-top:1px solid var(--border);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
-.footer-bottom p{font-size:13px;color:var(--gray-dim)}
-.footer-bottom p span{color:var(--white);font-weight:400} 
-.footer-bottom .fb-links{display:flex;gap:16px}
-.footer-bottom .fb-links a{font-size:13px;color:var(--gray-dim);text-decoration:none;transition:color .15s;cursor:pointer}
-.footer-bottom .fb-links a:hover{color:var(--red)}
+
+/* PERUBAHAN: Footer bottom dipusatkan */
+.footer-bottom{
+  border-top:1px solid var(--border);
+  padding-top:20px;
+  display:flex;
+  justify-content:center; /* Diubah ke center */
+  align-items:center;
+  flex-wrap:wrap;
+  gap:10px;
+  text-align:center; /* Ditambahkan agar teks selalu rata tengah */
+}
+.footer-bottom p{
+  font-size:13px;
+  color:var(--gray-dim);
+  margin: 0;
+}
+.footer-bottom .fb-links{
+  display:flex;
+  gap:16px;
+}
+.footer-bottom .fb-links a{
+  font-size:13px;
+  color:var(--gray-dim);
+  text-decoration:none;
+  transition:color .15s;
+  cursor:pointer;
+}
+.footer-bottom .fb-links a:hover{
+  color:var(--red);
+}
 
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
@@ -351,7 +376,6 @@ header{padding:36px 0 8px;text-align:center}
   .step-hint{display:none}
   .footer-grid{grid-template-columns:1fr;gap:24px}
   .footer-brand{grid-column:span 1}
-  .footer-bottom{flex-direction:column;text-align:center}
   .info-grid{grid-template-columns:1fr}
   .modal-box{padding:20px}
   .modal-title{font-size:18px;padding:0 20px}
@@ -444,6 +468,15 @@ header{padding:36px 0 8px;text-align:center}
   .info-box h3 { text-align: center; justify-content: center; }
   .legal-box .info-box h3 { text-align: center; justify-content: center; }
   .legal-box .info-box p { text-align: center; }
+
+  /* Footer text rata kiri pada mobile */
+  .footer-brand p { text-align-last: left; margin-left: auto; margin-right: auto; }
+  
+  /* PERUBAHAN: Pastikan footer bottom di mobile juga rata tengah vertikal */
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
 }
 .hidden{display:none !important}
 </style>
@@ -941,7 +974,7 @@ header{padding:36px 0 8px;text-align:center}
     </div>
     
     <div class="footer-bottom">
-      <p>© 2026 <span>Karya Abadi PDF</span>. All Rights Reserved.</p>
+      <p>© 2026 Karya Abadi PDF. All Rights Reserved.</p>
       <div class="fb-links">
         <a href="javascript:void(0)" onclick="showPage('page-kebijakan')">Privacy</a>
         <a href="javascript:void(0)" onclick="showPage('page-syarat')">Terms</a>
